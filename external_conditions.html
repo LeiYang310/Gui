@@ -45,32 +45,52 @@ input[type=range] {
 
 <div class="slider-container">
     <label>社会角色预期：
-        <input type="range" id="expectation" min="0" max="100" value="50" oninput="updateValue('expectationValue', this.value)">
+        <input type="range" id="expectation" min="0" max="100" value="50" oninput="updateCondition('socialExpectations', this.value)">
         <span class="value-display" id="expectationValue">50</span>
     </label>
 </div>
 
 <div class="slider-container">
     <label>群体压力：
-        <input type="range" id="pressure" min="0" max="100" value="50" oninput="updateValue('pressureValue', this.value)">
+        <input type="range" id="pressure" min="0" max="100" value="50" oninput="updateCondition('groupPressure', this.value)">
         <span class="value-display" id="pressureValue">50</span>
     </label>
 </div>
 
 <div class="slider-container">
     <label>物质条件：
-        <input type="range" id="material" min="0" max="100" value="50" oninput="updateValue('materialValue', this.value)">
+        <input type="range" id="material" min="0" max="100" value="50" oninput="updateCondition('materialEnvironment', this.value)">
         <span class="value-display" id="materialValue">50</span>
     </label>
 </div>
 
 <button class="button" onclick="goBack()">返回首页</button>
 
+<script src="app.js"></script>
 <script>
-function updateValue(displayId, value) {
-    document.getElementById(displayId).innerText = value;
+// 页面显示更新 + 变量联动
+function updateCondition(key, value) {
+    document.getElementById(keyMap[key]).innerText = value;
+    if (typeof window.externalConditions === 'undefined') {
+        window.externalConditions = {
+            socialExpectations: 50,
+            groupPressure: 50,
+            materialEnvironment: 50
+        };
+    }
+    externalConditions[key] = Number(value);
+    console.log("外部条件实时更新：", externalConditions);
 }
+
+// 映射关系
+const keyMap = {
+    socialExpectations: "expectationValue",
+    groupPressure: "pressureValue",
+    materialEnvironment: "materialValue"
+};
+
 function goBack() {
+    console.log("最终外部条件：", externalConditions);
     window.location.href = 'index.html';
 }
 </script>
