@@ -1,14 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Control System</title>
-<link rel="manifest" href="manifest.json">
+<title>外层控制系统 - 第一层</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin-top: 50px;
+    background: linear-gradient(135deg, #f0f8ff, #ffe4e1);
+}
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 40px;
+}
+.circle-button {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #ff7f50, #ff6347);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    transition: transform 0.3s, background 0.3s;
+}
+.circle-button:nth-child(2) {
+    background: linear-gradient(45deg, #1e90ff, #00bfff);
+}
+.circle-button:nth-child(3) {
+    background: linear-gradient(45deg, #32cd32, #3cb371);
+}
+.circle-button:hover {
+    transform: scale(1.1);
+    background: linear-gradient(45deg, #ff69b4, #ff1493);
+}
+h1 {
+    color: #333;
+}
+</style>
 </head>
 <body>
-<h1>外层控制系统已激活</h1>
-<button onclick="controlNextNode()">控制下一个节点</button>
-<script src="app.js"></script>
+
+<h1>外层控制系统 - 第一层</h1>
+<div class="button-container">
+    <div class="circle-button" onclick="alert('外部条件模块入口')">外部条件模块</div>
+    <div class="circle-button" onclick="alert('内部功能模块入口')">内部功能模块</div>
+    <div class="circle-button" onclick="alert('根层模块入口')">根层模块</div>
+</div>
+
 </body>
 </html>
