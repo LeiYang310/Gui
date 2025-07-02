@@ -1,0 +1,9 @@
+{
+    "name": "Control System PWA",
+    "short_name": "ControlPWA",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "description": "封闭隔离控制系统",
+    "icons": []
+}
