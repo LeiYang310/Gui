@@ -51,10 +51,23 @@ h1 {
 
 <h1>外层控制系统 - 第一层</h1>
 <div class="button-container">
-    <div class="circle-button" onclick="alert('外部条件模块入口')">外部条件模块</div>
-    <div class="circle-button" onclick="alert('内部功能模块入口')">内部功能模块</div>
-    <div class="circle-button" onclick="alert('根层模块入口')">根层模块</div>
+    <div class="circle-button" onclick="goToExternal()">外部条件模块</div>
+    <div class="circle-button" onclick="goToInternal()">内部功能模块</div>
+    <div class="circle-button" onclick="goToRoot()">根层模块</div>
 </div>
+
+<script>
+// 跳转第二层各模块页面
+function goToExternal() {
+    window.location.href = 'external_conditions.html';
+}
+function goToInternal() {
+    alert('内部功能模块开发中');
+}
+function goToRoot() {
+    alert('根层模块开发中');
+}
+</script>
 
 </body>
 </html>
