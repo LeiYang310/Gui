@@ -1,22 +1,31 @@
 window.systemStructure = {
     externalConditions: {
         socialExpectations: {
-            appearance: 50,         // 外貌影响力
-            reputation: 50,         // 社会口碑
-            statusSymbol: 50,       // 地位象征
-            fearOfLosingOpportunity: 50 // 害怕失去社会机会
+            appearance: 50,
+            reputation: 50,
+            statusSymbol: 50,
+            fearOfLosingOpportunity: 50
         },
         groupPressure: {
-            peerComparison: 50,     // 群体比较
-            conformityNeed: 50,     // 从众需求
-            rejectionFear: 50,      // 害怕排斥
-            groupValidation: 50     // 群体认同
+            peerComparison: 50,
+            conformityNeed: 50,
+            rejectionFear: 50,
+            groupValidation: 50
         },
         materialEnvironment: {
-            wealth: 50,             // 财富水平
-            resourceAccess: 50,     // 资源获取
-            livingConditions: 50,   // 居住环境
-            financialFreedom: 50    // 财富自由
+            wealth: 50,
+            resourceAccess: 50,
+            livingConditions: 50,
+            financialFreedom: 50
         }
+    },
+    internalFunctions: {
+        ni: 50,
+        ti: 50,
+        te: 50
+    },
+    rootLayer: {
+        root: 50,
+        energy: 50
     }
 };
