@@ -35,6 +35,12 @@
     </div>
 
     <div class="block">
+        <h4>外因功能区</h4>
+        <p>社会压力源：<span id="funcExtPressure"></span>%</p>
+        <p>环境波动影响：<span id="funcEnvUncertainty"></span>%</p>
+    </div>
+
+    <div class="block">
         <h4>内部因素</h4>
         <p>思维清晰度：<span id="int1"></span></p>
         <p>意志强度：<span id="int2"></span></p>
@@ -73,6 +79,8 @@ function probe() {
         ext1: random(0,50),
         ext2: random(0,50),
         ext3: random(0,50),
+        funcExtPressure: random(20,80),
+        funcEnvUncertainty: random(10,70),
         int1: random(0,50),
         int2: random(0,50),
         int3: random(0,50),
@@ -91,6 +99,8 @@ function probe() {
     document.getElementById("ext1").innerText = data.ext1;
     document.getElementById("ext2").innerText = data.ext2;
     document.getElementById("ext3").innerText = data.ext3;
+    document.getElementById("funcExtPressure").innerText = data.funcExtPressure;
+    document.getElementById("funcEnvUncertainty").innerText = data.funcEnvUncertainty;
     document.getElementById("int1").innerText = data.int1;
     document.getElementById("int2").innerText = data.int2;
     document.getElementById("int3").innerText = data.int3;
