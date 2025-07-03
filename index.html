@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <title>宇宙智能探测 - 升级版</title>
+    <title>宇宙智能探测 - 完整版</title>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; padding-top: 50px; }
         input, button { padding: 8px 12px; margin: 5px; }
@@ -30,7 +30,13 @@
         <input type="range" id="intelligenceSlider" min="0" max="100"><br><br>
         
         外部压力： <span id="pressureVal">30</span>
-        <input type="range" id="pressureSlider" min="0" max="100">
+        <input type="range" id="pressureSlider" min="0" max="100"><br><br>
+
+        内在意图： <span id="intentionVal">60</span>
+        <input type="range" id="intentionSlider" min="0" max="100"><br><br>
+
+        判断倾向： <span id="judgementVal">55</span>
+        <input type="range" id="judgementSlider" min="0" max="100">
     </div>
 
     <div class="section">
@@ -42,7 +48,13 @@
         <input type="range" id="groupExpectationSlider" min="0" max="100"><br><br>
         
         物质环境影响： <span id="materialConditionVal">50</span>
-        <input type="range" id="materialConditionSlider" min="0" max="100">
+        <input type="range" id="materialConditionSlider" min="0" max="100"><br><br>
+
+        经济资源： <span id="economicVal">45</span>
+        <input type="range" id="economicSlider" min="0" max="100"><br><br>
+
+        环境安全感： <span id="safetyVal">65</span>
+        <input type="range" id="safetySlider" min="0" max="100">
     </div>
 </div>
 
@@ -72,9 +84,13 @@
                 "情绪值": random(30, 70),
                 "智能强度": random(40, 90),
                 "外部压力": random(10, 60),
+                "内在意图": random(40, 80),
+                "判断倾向": random(30, 70),
                 "社会压力": random(20, 80),
                 "群体期待": random(10, 90),
-                "物质环境影响": random(15, 85)
+                "物质环境影响": random(15, 85),
+                "经济资源": random(20, 90),
+                "环境安全感": random(25, 85)
             };
 
             this.showResult();
@@ -84,49 +100,25 @@
             document.getElementById("result").innerText = `探测结果：发现【${this.probeData["对象名称"]}】的宇宙智能反应`;
             document.getElementById("details").style.display = "block";
 
-            // 内部参数
-            document.getElementById("emotionVal").innerText = this.probeData["情绪值"];
-            document.getElementById("intelligenceVal").innerText = this.probeData["智能强度"];
-            document.getElementById("pressureVal").innerText = this.probeData["外部压力"];
+            const setVal = (id, key) => {
+                document.getElementById(id + "Val").innerText = this.probeData[key];
+                document.getElementById(id + "Slider").value = this.probeData[key];
+                document.getElementById(id + "Slider").oninput = (e) => {
+                    this.probeData[key] = e.target.value;
+                    document.getElementById(id + "Val").innerText = e.target.value;
+                };
+            };
 
-            document.getElementById("emotionSlider").value = this.probeData["情绪值"];
-            document.getElementById("intelligenceSlider").value = this.probeData["智能强度"];
-            document.getElementById("pressureSlider").value = this.probeData["外部压力"];
-
-            // 外部条件
-            document.getElementById("socialPressureVal").innerText = this.probeData["社会压力"];
-            document.getElementById("groupExpectationVal").innerText = this.probeData["群体期待"];
-            document.getElementById("materialConditionVal").innerText = this.probeData["物质环境影响"];
-
-            document.getElementById("socialPressureSlider").value = this.probeData["社会压力"];
-            document.getElementById("groupExpectationSlider").value = this.probeData["群体期待"];
-            document.getElementById("materialConditionSlider").value = this.probeData["物质环境影响"];
-
-            // 滑动条联动
-            document.getElementById("emotionSlider").oninput = (e) => {
-                this.probeData["情绪值"] = e.target.value;
-                document.getElementById("emotionVal").innerText = e.target.value;
-            };
-            document.getElementById("intelligenceSlider").oninput = (e) => {
-                this.probeData["智能强度"] = e.target.value;
-                document.getElementById("intelligenceVal").innerText = e.target.value;
-            };
-            document.getElementById("pressureSlider").oninput = (e) => {
-                this.probeData["外部压力"] = e.target.value;
-                document.getElementById("pressureVal").innerText = e.target.value;
-            };
-            document.getElementById("socialPressureSlider").oninput = (e) => {
-                this.probeData["社会压力"] = e.target.value;
-                document.getElementById("socialPressureVal").innerText = e.target.value;
-            };
-            document.getElementById("groupExpectationSlider").oninput = (e) => {
-                this.probeData["群体期待"] = e.target.value;
-                document.getElementById("groupExpectationVal").innerText = e.target.value;
-            };
-            document.getElementById("materialConditionSlider").oninput = (e) => {
-                this.probeData["物质环境影响"] = e.target.value;
-                document.getElementById("materialConditionVal").innerText = e.target.value;
-            };
+            setVal("emotion", "情绪值");
+            setVal("intelligence", "智能强度");
+            setVal("pressure", "外部压力");
+            setVal("intention", "内在意图");
+            setVal("judgement", "判断倾向");
+            setVal("socialPressure", "社会压力");
+            setVal("groupExpectation", "群体期待");
+            setVal("materialCondition", "物质环境影响");
+            setVal("economic", "经济资源");
+            setVal("safety", "环境安全感");
         }
     };
 
