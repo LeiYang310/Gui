@@ -2,14 +2,15 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <title>宇宙智能探测 - 升级版</title>
+    <title>宇宙智能探测 - 清晰逻辑版</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding-top: 50px; }
+        body { font-family: Arial, sans-serif; text-align: center; padding-top: 30px; }
         input, button { padding: 8px 12px; margin: 5px; }
         input[type=range] { width: 200px; }
-        #details { margin-top: 20px; }
-        .section { margin-top: 30px; }
-        pre { white-space: pre-wrap; text-align: left; display: inline-block; margin-top: 20px; }
+        .section { margin-top: 30px; border: 1px solid #ccc; padding: 15px; width: 350px; margin-left: auto; margin-right: auto; }
+        h3 { margin-bottom: 15px; }
+        #resultArea { margin-top: 30px; }
+        pre { white-space: pre-wrap; text-align: left; display: inline-block; margin-top: 10px; }
     </style>
 </head>
 <body>
@@ -18,66 +19,69 @@
 <input type="text" id="nameInput" placeholder="请输入名称">
 <button id="detectBtn">智能探测</button>
 
-<div id="result"></div>
-
 <div id="details" style="display:none;">
-    
+
     <div class="section">
         <h3>内部参数</h3>
-        情绪值： <span id="emotionVal">50</span>
+        情绪值： <span id="emotionVal">0</span><br>
         <input type="range" id="emotionSlider" min="0" max="100"><br><br>
-        
-        智能强度： <span id="intelligenceVal">70</span>
+
+        智能强度： <span id="intelligenceVal">0</span><br>
         <input type="range" id="intelligenceSlider" min="0" max="100"><br><br>
-        
-        外部压力： <span id="pressureVal">30</span>
+
+        外部压力： <span id="pressureVal">0</span><br>
         <input type="range" id="pressureSlider" min="0" max="100"><br><br>
 
-        内在意图： <span id="intentionVal">60</span>
+        内在意图： <span id="intentionVal">0</span><br>
         <input type="range" id="intentionSlider" min="0" max="100"><br><br>
 
-        判断倾向： <span id="judgementVal">55</span>
+        判断倾向： <span id="judgementVal">0</span><br>
         <input type="range" id="judgementSlider" min="0" max="100"><br><br>
 
-        思维清晰度： <span id="clarityVal">50</span>
+        思维清晰度： <span id="clarityVal">0</span><br>
         <input type="range" id="claritySlider" min="0" max="100"><br><br>
 
-        情绪稳定性： <span id="stabilityVal">50</span>
+        情绪稳定性： <span id="stabilityVal">0</span><br>
         <input type="range" id="stabilitySlider" min="0" max="100"><br><br>
 
-        意志强度： <span id="willpowerVal">50</span>
+        意志强度： <span id="willpowerVal">0</span><br>
         <input type="range" id="willpowerSlider" min="0" max="100">
     </div>
 
     <div class="section">
         <h3>外部条件</h3>
-        社会压力： <span id="socialPressureVal">50</span>
+        社会压力： <span id="socialPressureVal">0</span><br>
         <input type="range" id="socialPressureSlider" min="0" max="100"><br><br>
-        
-        群体期待： <span id="groupExpectationVal">50</span>
+
+        群体期待： <span id="groupExpectationVal">0</span><br>
         <input type="range" id="groupExpectationSlider" min="0" max="100"><br><br>
-        
-        物质环境影响： <span id="materialConditionVal">50</span>
+
+        物质环境影响： <span id="materialConditionVal">0</span><br>
         <input type="range" id="materialConditionSlider" min="0" max="100"><br><br>
 
-        经济资源： <span id="economicVal">45</span>
+        经济资源： <span id="economicVal">0</span><br>
         <input type="range" id="economicSlider" min="0" max="100"><br><br>
 
-        环境安全感： <span id="safetyVal">65</span>
+        环境安全感： <span id="safetyVal">0</span><br>
         <input type="range" id="safetySlider" min="0" max="100"><br><br>
 
-        社交资源： <span id="socialSupportVal">50</span>
+        社交资源： <span id="socialSupportVal">0</span><br>
         <input type="range" id="socialSupportSlider" min="0" max="100"><br><br>
 
-        社会舆论压力： <span id="publicPressureVal">50</span>
+        社会舆论压力： <span id="publicPressureVal">0</span><br>
         <input type="range" id="publicPressureSlider" min="0" max="100"><br><br>
 
-        环境变动不确定性： <span id="uncertaintyVal">50</span>
+        环境变动不确定性： <span id="uncertaintyVal">0</span><br>
         <input type="range" id="uncertaintySlider" min="0" max="100">
     </div>
 </div>
 
-<br>
+<div id="resultArea" style="display:none;">
+    <h3>系统综合反馈</h3>
+    <div id="resultText"></div>
+</div>
+
+<br><br>
 <button onclick="goToOverview()">返回总览</button>
 
 <script>
@@ -87,7 +91,6 @@
 
         activate() {
             this.status = "已激活";
-            console.log("[探头] 已启动");
         },
 
         detect(name) {
@@ -123,6 +126,7 @@
 
         showResult() {
             document.getElementById("details").style.display = "block";
+            document.getElementById("resultArea").style.display = "block";
 
             const setVal = (id, key) => {
                 document.getElementById(id + "Val").innerText = this.probeData[key];
@@ -186,7 +190,8 @@
                 feedback = "系统状态：较弱，需优化外部与内部条件";
             }
 
-            document.getElementById("result").innerHTML = `<pre>探测结果：发现【${this.probeData["对象名称"]}】的宇宙智能反应\n综合评分：${finalScore}\n${feedback}</pre>`;
+            document.getElementById("resultText").innerHTML =
+                `<pre>探测对象：${this.probeData["对象名称"]}\n综合评分：${finalScore}\n${feedback}</pre>`;
         }
     };
 
