@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>根层结构模块 - 第二层</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 30px;
+    background: linear-gradient(135deg, #fffaf0, #ffe4e1);
+}
+h1 {
+    color: #333;
+}
+.slider-container {
+    margin: 20px 0;
+}
+input[type=range] {
+    width: 250px;
+}
+.value-display {
+    font-weight: bold;
+    margin-left: 10px;
+}
+.button {
+    margin-top: 30px;
+    padding: 10px 20px;
+    background-color: #ff8c00;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+.button:hover {
+    background-color: #ff7f00;
+}
+</style>
+</head>
+<body>
+
+<h1>根层结构模块 - 第二层</h1>
+
+<div class="slider-container">
+    <label>基础稳定性（Root Stability）：
+        <input type="range" id="root" min="0" max="100" value="50" oninput="updateRoot('rootValue', this.value)">
+        <span class="value-display" id="rootValue">50</span>
+    </label>
+</div>
+
+<div class="slider-container">
+    <label>能量储备（Energy Reserve）：
+        <input type="range" id="energy" min="0" max="100" value="50" oninput="updateRoot('energyValue', this.value)">
+        <span class="value-display" id="energyValue">50</span>
+    </label>
+</div>
+
+<button class="button" onclick="goBack()">返回首页</button>
+
+<script src="app.js"></script>
+<script>
+// 根层结构变量集中管理
+if (typeof window.rootLayer === 'undefined') {
+    window.rootLayer = {
+        root: 50,
+        energy: 50
+    };
+}
+
+function updateRoot(displayId, value) {
+    document.getElementById(displayId).innerText = value;
+    const key = displayId.replace('Value', '');
+    rootLayer[key] = Number(value);
+    console.log("根层结构实时更新：", rootLayer);
+}
+
+function goBack() {
+    console.log("最终根层结构值：", rootLayer);
+    window.location.href = 'index.html';
+}
+</script>
+
+</body>
+</html>
