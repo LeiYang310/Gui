@@ -5,36 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>系统总控概览</title>
 <style>
-body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    margin: 30px;
-    background: linear-gradient(135deg, #fffaf0, #e0ffff);
-}
-h1 {
-    color: #333;
-}
-.data-block {
-    margin: 20px 0;
-    padding: 15px;
-    background-color: #f5f5f5;
-    border-radius: 8px;
-    display: inline-block;
-    text-align: left;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
-.button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #1e90ff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-.button:hover {
-    background-color: #187bcd;
-}
+body { font-family: Arial, sans-serif; text-align: center; margin: 30px; background: linear-gradient(135deg, #fffaf0, #e0ffff); }
+h1 { color: #333; }
+.data-block { margin: 20px 0; padding: 15px; background-color: #f5f5f5; border-radius: 8px; display: inline-block; text-align: left; }
+.button { margin-top: 20px; padding: 10px 20px; background-color: #1e90ff; color: white; border: none; border-radius: 5px; cursor: pointer; }
 </style>
 </head>
 <body>
@@ -42,19 +16,19 @@ h1 {
 <h1>系统总控概览</h1>
 
 <div class="data-block" id="overview">
-    <strong>外部条件：</strong><br>
-    社会角色预期：<span id="socialExpectations">-</span><br>
-    群体压力：<span id="groupPressure">-</span><br>
-    物质条件：<span id="materialEnvironment">-</span><br><br>
+<strong>外部条件：</strong><br>
+社会角色预期：<span id="socialExpectations">-</span><br>
+群体压力：<span id="groupPressure">-</span><br>
+物质条件：<span id="materialEnvironment">-</span><br><br>
 
-    <strong>内部功能：</strong><br>
-    内在意图（Ni）：<span id="ni">-</span><br>
-    逻辑判断（Ti）：<span id="ti">-</span><br>
-    外部逻辑执行（Te）：<span id="te">-</span><br><br>
+<strong>内部功能：</strong><br>
+内在意图（Ni）：<span id="ni">-</span><br>
+逻辑判断（Ti）：<span id="ti">-</span><br>
+外部逻辑执行（Te）：<span id="te">-</span><br><br>
 
-    <strong>根层结构：</strong><br>
-    基础稳定性：<span id="root">-</span><br>
-    能量储备：<span id="energy">-</span><br>
+<strong>根层结构：</strong><br>
+基础稳定性：<span id="root">-</span><br>
+能量储备：<span id="energy">-</span><br>
 </div>
 
 <button class="button" onclick="refreshOverview()">刷新数据</button>
@@ -63,18 +37,18 @@ h1 {
 <script src="app.js"></script>
 <script>
 function refreshOverview() {
-    document.getElementById('socialExpectations').innerText = externalConditions.socialExpectations;
-    document.getElementById('groupPressure').innerText = externalConditions.groupPressure;
-    document.getElementById('materialEnvironment').innerText = externalConditions.materialEnvironment;
+    const data = window.userData[window.currentUser];
+    document.getElementById('socialExpectations').innerText = data.externalConditions.socialExpectations;
+    document.getElementById('groupPressure').innerText = data.externalConditions.groupPressure;
+    document.getElementById('materialEnvironment').innerText = data.externalConditions.materialEnvironment;
 
-    document.getElementById('ni').innerText = internalFunctions.ni;
-    document.getElementById('ti').innerText = internalFunctions.ti;
-    document.getElementById('te').innerText = internalFunctions.te;
+    document.getElementById('ni').innerText = data.internalFunctions.ni;
+    document.getElementById('ti').innerText = data.internalFunctions.ti;
+    document.getElementById('te').innerText = data.internalFunctions.te;
 
-    document.getElementById('root').innerText = rootLayer.root;
-    document.getElementById('energy').innerText = rootLayer.energy;
+    document.getElementById('root').innerText = data.rootLayer.root;
+    document.getElementById('energy').innerText = data.rootLayer.energy;
 }
-
 function goBack() {
     window.location.href = 'index.html';
 }
