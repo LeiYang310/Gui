@@ -5,64 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>外层控制系统 - 第一层</title>
 <style>
-body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    margin-top: 50px;
-    background: linear-gradient(135deg, #f0f8ff, #ffe4e1);
-}
-.button-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 40px;
-}
-.circle-button {
-    width: 130px;
-    height: 130px;
-    border-radius: 50%;
-    background: linear-gradient(45deg, #ff7f50, #ff6347);
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 14px;
-    cursor: pointer;
-    box-shadow: 0 0 15px rgba(0,0,0,0.3);
-    transition: transform 0.3s, background 0.3s;
-}
-.circle-button:nth-child(2) {
-    background: linear-gradient(45deg, #1e90ff, #00bfff);
-}
-.circle-button:nth-child(3) {
-    background: linear-gradient(45deg, #32cd32, #3cb371);
-}
-.circle-button:hover {
-    transform: scale(1.1);
-    background: linear-gradient(45deg, #ff69b4, #ff1493);
-}
-.button {
-    margin-top: 30px;
-    padding: 10px 20px;
-    background-color: #1e90ff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
-}
-.button:hover {
-    background-color: #187bcd;
-}
-h1 {
-    color: #333;
-}
+body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; background: linear-gradient(135deg, #f0f8ff, #ffe4e1); }
+.button-container { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 40px; margin-top: 20px; }
+.circle-button { width: 130px; height: 130px; border-radius: 50%; background: linear-gradient(45deg, #ff7f50, #ff6347); color: white; display: flex; justify-content: center; align-items: center; font-size: 14px; cursor: pointer; box-shadow: 0 0 15px rgba(0,0,0,0.3); }
+.circle-button:nth-child(2) { background: linear-gradient(45deg, #1e90ff, #00bfff); }
+.circle-button:nth-child(3) { background: linear-gradient(45deg, #32cd32, #3cb371); }
+.button { margin-top: 20px; padding: 10px 20px; background-color: #1e90ff; color: white; border: none; border-radius: 5px; cursor: pointer; }
 </style>
 </head>
 <body>
 
 <h1>外层控制系统 - 第一层</h1>
+
+<h2>选择用户身份</h2>
+<select id="userSelector" onchange="switchUser()">
+    <option value="user001">用户001</option>
+    <option value="user002">用户002</option>
+</select>
 
 <div class="button-container">
     <div class="circle-button" onclick="goToExternal()">外部条件模块</div>
@@ -71,19 +30,18 @@ h1 {
 </div>
 
 <button class="button" onclick="controlNextNode()">总控启动</button>
-    <button class="button" onclick="window.location.href='system_overview.html'">系统总控概览</button>
+<button class="button" onclick="window.location.href='system_overview.html'">系统总控概览</button>
 
 <script src="app.js"></script>
 <script>
-function goToExternal() {
-    window.location.href = 'external_conditions.html';
+function switchUser() {
+    const selector = document.getElementById('userSelector');
+    window.currentUser = selector.value;
+    alert('已切换至：' + window.currentUser);
 }
-function goToInternal() {
-    window.location.href = 'internal_functions.html';
-}
-function goToRoot() {
-    window.location.href = 'root_layer.html';
-}
+function goToExternal() { window.location.href = 'external_conditions.html'; }
+function goToInternal() { window.location.href = 'internal_functions.html'; }
+function goToRoot() { window.location.href = 'root_layer.html'; }
 </script>
 
 </body>
