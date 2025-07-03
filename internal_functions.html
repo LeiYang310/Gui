@@ -1,53 +1,49 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>内部功能模块 - 第二层</title>
-<style>
-body { font-family: Arial, sans-serif; text-align: center; margin: 30px; background: linear-gradient(135deg, #f0fff0, #e6e6fa); }
-.slider-container { margin: 20px 0; }
-input[type=range] { width: 250px; }
-.value-display { font-weight: bold; margin-left: 10px; }
-.button { margin-top: 30px; padding: 10px 20px; background-color: #1e90ff; color: white; border: none; border-radius: 5px; cursor: pointer; }
-</style>
+    <meta charset="UTF-8">
+    <title>内部功能模块 - 第二层</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding-top: 50px; }
+        input[type=range] { width: 200px; }
+    </style>
 </head>
 <body>
 
-<h1>内部功能模块 - 第二层</h1>
+<h2>内部功能模块 - 第二层</h2>
 
-<div class="slider-container">
-<label>内在意图（Ni）：
-<input type="range" id="ni" min="0" max="100" value="50" oninput="updateInternalFunction('ni', this.value)">
-<span class="value-display" id="niValue">50</span>
-</label>
+<div>
+    内在意图（Ni）： <span id="niValue">50</span>
+    <input type="range" id="niSlider" min="0" max="100" value="50">
+</div>
+<div>
+    逻辑判断（Ti）： <span id="tiValue">50</span>
+    <input type="range" id="tiSlider" min="0" max="100" value="50">
+</div>
+<div>
+    外部逻辑执行（Te）： <span id="teValue">50</span>
+    <input type="range" id="teSlider" min="0" max="100" value="50">
 </div>
 
-<div class="slider-container">
-<label>逻辑判断（Ti）：
-<input type="range" id="ti" min="0" max="100" value="50" oninput="updateInternalFunction('ti', this.value)">
-<span class="value-display" id="tiValue">50</span>
-</label>
-</div>
+<br>
+<button onclick="goToOverview()">返回总览</button>
 
-<div class="slider-container">
-<label>外部逻辑执行（Te）：
-<input type="range" id="te" min="0" max="100" value="50" oninput="updateInternalFunction('te', this.value)">
-<span class="value-display" id="teValue">50</span>
-</label>
-</div>
-
-<button class="button" onclick="goBack()">返回首页</button>
-
-<script src="app.js"></script>
 <script>
-function updateInternalFunction(key, value) {
-    window.userData[window.currentUser].internalFunctions[key] = Number(value);
-    document.getElementById(key + 'Value').innerText = value;
-}
-function goBack() {
-    window.location.href = 'index.html';
-}
+    const niSlider = document.getElementById("niSlider");
+    const niValue = document.getElementById("niValue");
+    niSlider.oninput = () => { niValue.innerText = niSlider.value; };
+
+    const tiSlider = document.getElementById("tiSlider");
+    const tiValue = document.getElementById("tiValue");
+    tiSlider.oninput = () => { tiValue.innerText = tiSlider.value; };
+
+    const teSlider = document.getElementById("teSlider");
+    const teValue = document.getElementById("teValue");
+    teSlider.oninput = () => { teValue.innerText = teSlider.value; };
+
+    function goToOverview() {
+        window.location.href = "system_overview.html";
+    }
 </script>
 
 </body>
