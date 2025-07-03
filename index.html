@@ -1,33 +1,84 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-    <meta charset="UTF-8">
-    <title>龟壳智能探测</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>龟壳智能探测</title>
+<style>
+    body { font-family: sans-serif; background: #eaf4ec; padding: 20px; }
+    .hidden { display: none; }
+    .param { margin: 10px 0; }
+</style>
 </head>
 <body>
-<div class="container">
-    <h1>龟壳智能探测</h1>
-    <div class="input-section">
-        <input type="text" id="targetName" placeholder="请输入探测对象姓名">
-        <div class="button-group">
-            <button onclick="startBasic()">普通模式</button>
-            <button onclick="startAdvanced()">进阶模式</button>
-        </div>
-    </div>
+
+<h1>龟壳智能探测</h1>
+
+<div>
+    <label>探测对象：</label>
+    <input type="text" id="targetName">
+    <button onclick="startDetection()">智能探测</button>
+</div>
+
+<div id="results" class="hidden">
+
+    <h2>外因功能区</h2>
+    <div class="param"><label>社交资源：</label><input type="range" id="social" min="0" max="100"><span id="socialVal"></span></div>
+    <div class="param"><label>物质基础：</label><input type="range" id="material" min="0" max="100"><span id="materialVal"></span></div>
+    <div class="param"><label>外貌形象：</label><input type="range" id="appearance" min="0" max="100"><span id="appearanceVal"></span></div>
+
+    <h2>内因功能区</h2>
+    <div class="param"><label>Ti逻辑判断：</label><input type="range" id="ti" min="0" max="100"><span id="tiVal"></span></div>
+    <div class="param"><label>Fi价值系统：</label><input type="range" id="fi" min="0" max="100"><span id="fiVal"></span></div>
+    <div class="param"><label>Ni预判能力：</label><input type="range" id="ni" min="0" max="100"><span id="niVal"></span></div>
+
+    <h2>总分统计</h2>
+    <div>外因总分：<span id="outerTotal"></span> ｜ 内因总分：<span id="innerTotal"></span></div>
+
 </div>
 
 <script>
-function getName() {
+function startDetection() {
     const name = document.getElementById('targetName').value.trim();
-    return name || "未知对象";
+    if (!name) {
+        alert('请输入探测对象');
+        return;
+    }
+    const random = () => Math.floor(Math.random() * 101);
+    const data = {
+        social: random(),
+        material: random(),
+        appearance: random(),
+        ti: random(),
+        fi: random(),
+        ni: random()
+    };
+    document.getElementById('results').classList.remove('hidden');
+    for (let key in data) {
+        document.getElementById(key).value = data[key];
+        document.getElementById(key + 'Val').innerText = data[key];
+        document.getElementById(key).oninput = (e) => {
+            document.getElementById(key + 'Val').innerText = e.target.value;
+            updateTotal();
+        };
+    }
+    updateTotal();
 }
-function startBasic() {
-    location.href = "basic_mode.html?name=" + encodeURIComponent(getName());
-}
-function startAdvanced() {
-    location.href = "advanced_mode.html?name=" + encodeURIComponent(getName());
+
+function updateTotal() {
+    const outerTotal = (
+        +document.getElementById('social').value +
+        +document.getElementById('material').value +
+        +document.getElementById('appearance').value
+    ) / 3;
+    const innerTotal = (
+        +document.getElementById('ti').value +
+        +document.getElementById('fi').value +
+        +document.getElementById('ni').value
+    ) / 3;
+    document.getElementById('outerTotal').innerText = outerTotal.toFixed(1);
+    document.getElementById('innerTotal').innerText = innerTotal.toFixed(1);
 }
 </script>
+
 </body>
 </html>
