@@ -1,163 +1,166 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh">
 <head>
 <meta charset="UTF-8">
-<title>宇宙智能探测 - 完整整合版</title>
+<title>宇宙智能探测 · 递进控制整合版</title>
 <style>
-    body { font-family: Arial; padding: 20px; }
-    h1, h2 { text-align: center; }
-    .container { max-width: 800px; margin: 0 auto; }
-    .section { border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 5px; }
-    .param { margin: 10px 0; }
-    .param label { display: inline-block; width: 200px; }
-    .param input[type="range"] { width: 200px; }
-    .top-buttons { text-align: right; margin-bottom: 20px; }
+    body {
+        margin: 0;
+        padding: 0;
+        background: url('您的背景图片地址.jpg') no-repeat center center fixed;
+        background-size: cover;
+        font-family: "微软雅黑", sans-serif;
+        color: #333;
+    }
+    .container {
+        background: rgba(255,255,255,0.85);
+        margin: 50px auto;
+        padding: 20px;
+        border-radius: 10px;
+        width: 85%;
+        max-width: 900px;
+        text-align: center;
+    }
+    h1 {
+        font-size: 28px;
+        color: #444;
+    }
+    .param {
+        margin: 15px 0;
+        text-align: left;
+    }
+    input[type=range] {
+        width: 60%;
+    }
+    .section {
+        border: 1px solid #ccc;
+        background: #fff;
+        padding: 15px;
+        margin: 20px 0;
+        border-radius: 8px;
+    }
+    #logoArea img {
+        width: 120px;
+        margin-top: 20px;
+    }
 </style>
 </head>
+
 <body>
 
-<div class="top-buttons">
-    <button onclick="location.href='creator.html'">系统总览控制台</button>
-</div>
-
-<h1>宇宙智能探测</h1>
-
 <div class="container">
-    <input type="text" id="targetName" placeholder="请输入探测对象">
-    <select id="modeSelect">
-        <option value="simple">普通模式</option>
-        <option value="full">深度模式</option>
-    </select>
-    <button onclick="runProbe()">智能探测</button>
-</div>
+    <h1>宇宙智能探测 · 递进控制整合版</h1>
 
-<div class="container" id="resultArea" style="display: none;">
-
-    <div class="section">
-        <h2>对象：<span id="nameDisplay"></span></h2>
-        <p>综合评分：<span id="totalScore">0</span></p>
-        <p id="weakPoint"></p>
+    <div id="logoArea">
+        <img src="您的猫乌龟图片.gif" alt="系统LOGO">
     </div>
 
-    <div id="fullSections" style="display: none;">
+    <div>
+        <input type="text" id="targetName" placeholder="请输入探测对象">
+        <button onclick="startDetection()">智能探测</button>
+    </div>
+
+    <div id="resultArea" style="display:none;">
+        <h2>探测对象：<span id="displayName"></span></h2>
 
         <div class="section">
-            <h2>内因功能区</h2>
-            <div class="param"><label>Ti 逻辑判断：</label><input type="range" id="ti" min="0" max="100"><span id="tiVal"></span></div>
-            <div class="param"><label>Fi 价值系统：</label><input type="range" id="fi" min="0" max="100"><span id="fiVal"></span></div>
-            <div class="param"><label>Ni 预测能力：</label><input type="range" id="ni" min="0" max="100"><span id="niVal"></span></div>
-            <div class="param"><label>Se 外部感知：</label><input type="range" id="se" min="0" max="100"><span id="seVal"></span></div>
+            <h3>综合状态</h3>
+            动能：<span id="energyVal">0</span>%
         </div>
 
         <div class="section">
-            <h2>内部因素</h2>
-            <div class="param"><label>思维清晰度：</label><input type="range" id="clarity" min="0" max="100"><span id="clarityVal"></span></div>
-            <div class="param"><label>意志强度：</label><input type="range" id="willpower" min="0" max="100"><span id="willpowerVal"></span></div>
-            <div class="param"><label>内在意图：</label><input type="range" id="intention" min="0" max="100"><span id="intentionVal"></span></div>
-
-            <h3>儿童学习模块</h3>
-            <div class="param"><label>学习专注度：</label><input type="range" id="focus" min="0" max="100"><span id="focusVal"></span></div>
-            <div class="param"><label>理解与记忆力：</label><input type="range" id="memory" min="0" max="100"><span id="memoryVal"></span></div>
-            <div class="param"><label>学科学习进度：</label><input type="range" id="progress" min="0" max="100"><span id="progressVal"></span></div>
+            <h3>内因功能区</h3>
+            <div class="param">Ti逻辑判断：<input type="range" id="ti" min="0" max="100"><span id="tiVal"></span></div>
+            <div class="param">Fi价值系统：<input type="range" id="fi" min="0" max="100"><span id="fiVal"></span></div>
+            <div class="param">Ni预测能力：<input type="range" id="ni" min="0" max="100"><span id="niVal"></span></div>
+            <div class="param">Se外部感知：<input type="range" id="se" min="0" max="100"><span id="seVal"></span></div>
         </div>
 
         <div class="section">
-            <h2>外因功能区</h2>
-            <div class="param"><label>社交资源：</label><input type="range" id="social" min="0" max="100"><span id="socialVal"></span></div>
-            <div class="param"><label>社会认知压力：</label><input type="range" id="pressure" min="0" max="100"><span id="pressureVal"></span></div>
-            <div class="param"><label>社会期待值：</label><input type="range" id="expectation" min="0" max="100"><span id="expectationVal"></span></div>
-
-            <h3>物质基础细化</h3>
-            <div class="param"><label>房产持有：</label><input type="range" id="house" min="0" max="100"><span id="houseVal"></span></div>
-            <div class="param"><label>现金储备：</label><input type="range" id="cash" min="0" max="100"><span id="cashVal"></span></div>
-            <div class="param"><label>股票投资：</label><input type="range" id="stock" min="0" max="100"><span id="stockVal"></span></div>
-
-            <h3>外貌形象细化</h3>
-            <div class="param"><label>皮肤状态：</label><input type="range" id="skin" min="0" max="100"><span id="skinVal"></span></div>
-            <div class="param"><label>五官立体感：</label><input type="range" id="face" min="0" max="100"><span id="faceVal"></span></div>
-            <div class="param"><label>整体气质：</label><input type="range" id="charm" min="0" max="100"><span id="charmVal"></span></div>
-
-            <h3>健康基础</h3>
-            <div class="param"><label>免疫力：</label><input type="range" id="immunity" min="0" max="100"><span id="immunityVal"></span></div>
-            <div class="param"><label>基础代谢水平：</label><input type="range" id="metabolism" min="0" max="100"><span id="metabolismVal"></span></div>
-            <div class="param"><label>慢性疾病指数：</label><input type="range" id="disease" min="0" max="100"><span id="diseaseVal"></span></div>
-
-            <h3>行为与听话程度</h3>
-            <div class="param"><label>主动配合意愿：</label><input type="range" id="cooperate" min="0" max="100"><span id="cooperateVal"></span></div>
-            <div class="param"><label>规则执行力：</label><input type="range" id="discipline" min="0" max="100"><span id="disciplineVal"></span></div>
+            <h3>外因功能区</h3>
+            <div class="param">社交资源：<input type="range" id="social" min="0" max="100"><span id="socialVal"></span></div>
+            <div class="param">社会期待：<input type="range" id="expectation" min="0" max="100"><span id="expectationVal"></span></div>
+            <div class="param">物质基础：<input type="range" id="material" min="0" max="100"><span id="materialVal"></span></div>
         </div>
 
         <div class="section">
-            <h2>外部因素</h2>
-            <div class="param"><label>环境安全感：</label><input type="range" id="safety" min="0" max="100"><span id="safetyVal"></span></div>
-            <div class="param"><label>经济资源：</label><input type="range" id="economic" min="0" max="100"><span id="economicVal"></span></div>
-            <div class="param"><label>环境不确定性：</label><input type="range" id="uncertainty" min="0" max="100"><span id="uncertaintyVal"></span></div>
+            <h3>目标设定</h3>
+            目标参数：
+            <select id="goalParam">
+                <option value="ti">Ti逻辑判断</option>
+                <option value="fi">Fi价值系统</option>
+                <option value="ni">Ni预测能力</option>
+                <option value="social">社交资源</option>
+            </select>
+            目标值：<input type="number" id="goalValue" min="0" max="100">
+            时间：
+            <select id="goalTime">
+                <option value="30">30天</option>
+                <option value="90">90天</option>
+                <option value="180">180天</option>
+            </select>
+            <button onclick="setGoal()">确认目标</button>
+            <p id="goalInfo"></p>
         </div>
 
     </div>
-
-    <div class="section">
-        <h2>动能状态</h2>
-        <p>综合动能：<span id="energy">0%</span></p>
-    </div>
-
-    <div class="section">
-        <h2>目标设定</h2>
-        <input type="text" id="goalText" placeholder="如：两年内学习专注度提升20%">
-        <select id="goalTime">
-            <option value="180">半年</option>
-            <option value="365">一年</option>
-            <option value="730">两年</option>
-        </select>
-        <button onclick="confirmGoal()">确认目标</button>
-        <p id="goalResult"></p>
-    </div>
-
 </div>
 
 <script>
-function randomVal() { return Math.floor(Math.random() * 51) + 25; }
+function startDetection() {
+    const name = document.getElementById('targetName').value;
+    if (!name) {
+        alert("请输入探测对象名称");
+        return;
+    }
+    document.getElementById('displayName').innerText = name;
+    document.getElementById('resultArea').style.display = "block";
 
-function runProbe() {
-    const name = document.getElementById("targetName").value || "未知";
-    document.getElementById("nameDisplay").innerText = name;
-    const mode = document.getElementById("modeSelect").value;
-
-    if (mode === "full") document.getElementById("fullSections").style.display = "block";
-    else document.getElementById("fullSections").style.display = "none";
-
-    document.querySelectorAll('input[type="range"]').forEach(el => {
-        el.value = randomVal();
-        document.getElementById(el.id + "Val").innerText = el.value;
+    ['ti','fi','ni','se','social','expectation','material'].forEach(id => {
+        const val = Math.floor(Math.random()*51)+25;
+        setVal(id, val);
     });
-
-    calcSummary();
-    document.getElementById("resultArea").style.display = "block";
+    calcEnergy();
 }
 
-function calcSummary() {
-    let sum = 0, count = 0;
-    document.querySelectorAll('input[type="range"]').forEach(el => {
-        sum += parseInt(el.value); count++;
-    });
-    const score = Math.round(sum / count);
-    document.getElementById("totalScore").innerText = score;
-    document.getElementById("energy").innerText = score + "%";
-    document.getElementById("weakPoint").innerText = score < 40 ? "存在弱项，建议调整" : "结构良好";
+function setVal(id, val) {
+    document.getElementById(id).value = val;
+    document.getElementById(id+'Val').innerText = val;
+    document.getElementById(id).oninput = () => {
+        document.getElementById(id+'Val').innerText = document.getElementById(id).value;
+        calcEnergy();
+    }
 }
 
-function confirmGoal() {
-    const text = document.getElementById("goalText").value;
-    const days = document.getElementById("goalTime").value;
-    document.getElementById("goalResult").innerText = `已设定目标：${text}，时间：${days}天内`;
+function calcEnergy() {
+    const ids = ['ti','fi','ni','se','social','expectation','material'];
+    let sum = 0;
+    ids.forEach(id => sum += parseInt(document.getElementById(id).value));
+    const energy = Math.round(sum/ids.length);
+    document.getElementById('energyVal').innerText = energy;
 }
 
-document.querySelectorAll('input[type="range"]').forEach(el => {
-    el.addEventListener("input", () => {
-        document.getElementById(el.id + "Val").innerText = el.value;
-        calcSummary();
-    });
-});
+function setGoal() {
+    const param = document.getElementById('goalParam').value;
+    const target = parseInt(document.getElementById('goalValue').value);
+    const days = parseInt(document.getElementById('goalTime').value);
+    const current = parseInt(document.getElementById(param).value);
+
+    if (isNaN(target) || target < 0 || target > 100) {
+        alert("请设定有效的目标值");
+        return;
+    }
+
+    const diff = target - current;
+    if (diff <= 0) {
+        alert("目标值需高于当前状态");
+        return;
+    }
+
+    const dailyIncrease = (diff / days).toFixed(2);
+    document.getElementById('goalInfo').innerText =
+        `目标：${param} 提升至 ${target}，预计每日需递增 ${dailyIncrease} 单位，周期：${days}天`;
+}
 </script>
 
 </body>
