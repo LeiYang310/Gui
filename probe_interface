@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>探头接口 - 页面版GUI</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        #status { margin-top: 10px; }
+        button { margin: 5px; }
+    </style>
+</head>
+<body>
+
+<h2>探头接口（页面版）</h2>
+
+<button id="activateBtn">激活探头</button>
+<button id="inputDataBtn">输入探测数据</button>
+<button id="getStatusBtn">查看探头状态</button>
+
+<div id="status"></div>
+
+<script>
+    // 探头接口逻辑
+    const probe = {
+        status: "未激活",
+        probeData: null,
+
+        activateProbe() {
+            this.status = "已激活";
+            console.log("[探头] 已启动");
+            this.showStatus();
+        },
+
+        inputData(data) {
+            this.probeData = data;
+            console.log("[探头] 接收到数据：", data);
+            this.showStatus();
+        },
+
+        getStatus() {
+            return {
+                "探头状态": this.status,
+                "数据": this.probeData
+            };
+        },
+
+        showStatus() {
+            const statusDiv = document.getElementById("status");
+            statusDiv.innerText = JSON.stringify(this.getStatus(), null, 2);
+        }
+    };
+
+    // 绑定按钮
+    document.getElementById("activateBtn").onclick = () => {
+        probe.activateProbe();
+    };
+
+    document.getElementById("inputDataBtn").onclick = () => {
+        const data = prompt("请输入探测数据（如：{\"信号强度\": 80}）");
+        try {
+            const parsedData = JSON.parse(data);
+            probe.inputData(parsedData);
+        } catch (e) {
+            alert("输入格式错误，请输入有效 JSON");
+        }
+    };
+
+    document.getElementById("getStatusBtn").onclick = () => {
+        probe.showStatus();
+    };
+
+</script>
+
+</body>
+</html>
