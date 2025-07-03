@@ -11,6 +11,7 @@ body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; bac
 .circle-button:nth-child(2) { background: linear-gradient(45deg, #1e90ff, #00bfff); }
 .circle-button:nth-child(3) { background: linear-gradient(45deg, #32cd32, #3cb371); }
 .button { margin-top: 20px; padding: 10px 20px; background-color: #1e90ff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+h2 { margin-top: 30px; }
 </style>
 </head>
 <body>
@@ -22,6 +23,10 @@ body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; bac
     <option value="user001">用户001</option>
     <option value="user002">用户002</option>
 </select>
+
+<h2>新增用户</h2>
+<input type="text" id="newUserId" placeholder="输入新用户ID">
+<button class="button" onclick="createNewUser()">创建用户</button>
 
 <div class="button-container">
     <div class="circle-button" onclick="goToExternal()">外部条件模块</div>
@@ -39,6 +44,32 @@ function switchUser() {
     window.currentUser = selector.value;
     alert('已切换至：' + window.currentUser);
 }
+
+function createNewUser() {
+    const newId = document.getElementById('newUserId').value.trim();
+    if (newId === '') {
+        alert('用户ID不能为空');
+        return;
+    }
+    if (window.userData.hasOwnProperty(newId)) {
+        alert('该用户已存在');
+        return;
+    }
+    window.userData[newId] = {
+        externalConditions: { socialExpectations: 50, groupPressure: 50, materialEnvironment: 50 },
+        internalFunctions: { ni: 50, ti: 50, te: 50 },
+        rootLayer: { root: 50, energy: 50 }
+    };
+    const selector = document.getElementById('userSelector');
+    const option = document.createElement('option');
+    option.value = newId;
+    option.text = newId;
+    selector.appendChild(option);
+    selector.value = newId;
+    window.currentUser = newId;
+    alert('新用户已创建并切换至：' + newId);
+}
+
 function goToExternal() { window.location.href = 'external_conditions.html'; }
 function goToInternal() { window.location.href = 'internal_functions.html'; }
 function goToRoot() { window.location.href = 'root_layer.html'; }
