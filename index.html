@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <title>宇宙智能探测 - 第一层</title>
+    <title>宇宙智能探测</title>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; padding-top: 100px; }
         input, button { padding: 8px 12px; margin: 5px; }
@@ -16,9 +16,10 @@
 <button id="detectBtn">智能探测</button>
 
 <div id="result"></div>
+<br>
+<button onclick="goToOverview()">返回总览</button>
 
 <script>
-    // 探头逻辑
     const probe = {
         status: "未激活",
         probeData: null,
@@ -39,10 +40,8 @@
         }
     };
 
-    // 自动激活探头
     probe.activate();
 
-    // 绑定按钮
     document.getElementById("detectBtn").onclick = () => {
         const name = document.getElementById("nameInput").value.trim();
         if (name === "") {
@@ -51,6 +50,10 @@
         }
         probe.detect(name);
     };
+
+    function goToOverview() {
+        window.location.href = "system_overview.html";
+    }
 </script>
 
 </body>
