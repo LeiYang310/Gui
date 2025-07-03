@@ -4,14 +4,13 @@
 <meta charset="UTF-8">
 <title>普通模式 · 龟壳智能探测</title>
 <link rel="stylesheet" href="style.css">
-<script src="logic.js"></script>
 </head>
 <body>
 <div class="container">
     <h1>普通模式 · 龟壳智能探测</h1>
     <p>探测对象：<span id="targetName"></span></p>
 
-    <div id="detectArea" style="display:none;">
+    <div id="detectArea">
         <h2>外因总分：<span id="outerScore">0</span></h2>
         <input type="range" id="outerSlider" min="0" max="100" oninput="updateScores()">
 
@@ -22,7 +21,7 @@
 
         <div class="section">
             <h3>设定变动目标</h3>
-            目标总分：<input type="number" id="targetValue" min="0" max="100">
+            目标动能值：<input type="number" id="targetValue" min="0" max="100">
             周期：
             <select id="timeSelect">
                 <option value="30">1个月</option>
@@ -47,10 +46,9 @@ const params = new URLSearchParams(location.search);
 const name = params.get("name") || "未知对象";
 document.getElementById("targetName").innerText = name;
 
-function random(val=50) { return Math.floor(Math.random() * val); }
+function random(max=50) { return Math.floor(Math.random() * (max+1)); }
 
 function startDetection() {
-    document.getElementById("detectArea").style.display = "block";
     const outer = random(60);
     const inner = random(60);
     document.getElementById("outerSlider").value = outer;
@@ -70,7 +68,7 @@ function setGoal() {
     const value = document.getElementById("targetValue").value;
     const time = document.getElementById("timeSelect").value;
     const date = new Date().toLocaleDateString();
-    const record = `${date} 设定目标：总分提升至${value}，周期：${time}天`;
+    const record = `${date} 设定目标：动能提升至 ${value}，周期：${time}天`;
     const li = document.createElement("li");
     li.innerText = record;
     document.getElementById("historyList").appendChild(li);
