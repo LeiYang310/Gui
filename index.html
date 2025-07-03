@@ -1,42 +1,56 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>宇宙智能探测 - 第一层</title>
-<style>
-body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    margin: 30px;
-    background: linear-gradient(135deg, #f0f8ff, #ffe4e1);
-}
-input, button {
-    margin: 5px;
-    padding: 5px;
-}
-button {
-    background-color: #1e90ff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    padding: 8px 15px;
-}
-</style>
+    <meta charset="UTF-8">
+    <title>宇宙智能探测 - 第一层</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding-top: 100px; }
+        input, button { padding: 8px 12px; margin: 5px; }
+        #result { margin-top: 20px; color: blue; font-weight: bold; }
+    </style>
 </head>
 <body>
 
-<h1>宇宙智能探测</h1>
-<input type="text" id="username" placeholder="输入名字">
-<button onclick="startDetection()">智能探测</button>
+<h2>宇宙智能探测</h2>
+<input type="text" id="nameInput" placeholder="请输入名称">
+<button id="detectBtn">智能探测</button>
+
+<div id="result"></div>
 
 <script>
-function startDetection(){
-    const name = document.getElementById('username').value || '未命名';
-    alert('智能探测启动：' + name);
-    // 后续跳转或展开结构将在下一层实现
-}
+    // 探头模拟逻辑
+    const probe = {
+        status: "未激活",
+        probeData: null,
+
+        activate() {
+            this.status = "已激活";
+            console.log("[探头] 已启动");
+        },
+
+        detect(name) {
+            if (this.status !== "已激活") {
+                alert("请先激活探头");
+                return;
+            }
+            this.probeData = `探测结果：发现【${name}】的宇宙智能反应`;
+            console.log(this.probeData);
+            document.getElementById("result").innerText = this.probeData;
+        }
+    };
+
+    // 自动激活探头
+    probe.activate();
+
+    // 绑定按钮逻辑
+    document.getElementById("detectBtn").onclick = () => {
+        const name = document.getElementById("nameInput").value.trim();
+        if (name === "") {
+            alert("请输入名称再探测");
+            return;
+        }
+        probe.detect(name);
+    };
 </script>
 
 </body>
