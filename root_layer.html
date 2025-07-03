@@ -1,73 +1,68 @@
-<!DOCTYPE html>
-<html lang="zh">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>根层结构模块</title>
-<style>
 body {
+    background-color: #e8f5e9; /* 马卡龙绿色背景 */
     font-family: Arial, sans-serif;
-    text-align: center;
-    margin: 30px;
-    background: linear-gradient(135deg, #f0f8ff, #ffe4e1);
-}
-h1 {
     color: #333;
+    text-align: center;
+    margin: 0;
+    padding: 0;
 }
-.slider-container {
-    margin: 20px 0;
+
+.container {
+    background: rgba(255, 255, 255, 0.95);
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 800px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
-input[type=range] {
-    width: 250px;
+
+h1, h2 {
+    color: #388e3c; /* 深绿色标题 */
 }
-.value-display {
-    font-weight: bold;
-    margin-left: 10px;
+
+h3 {
+    color: #4caf50;
 }
-.button {
-    margin-top: 30px;
-    padding: 10px 20px;
-    background-color: #1e90ff;
+
+.param {
+    margin: 15px 0;
+    text-align: left;
+}
+
+input[type="range"] {
+    width: 60%;
+}
+
+button {
+    margin: 10px;
+    padding: 8px 16px;
+    background: #66bb6a;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 4px;
     cursor: pointer;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
 }
-.button:hover {
-    background-color: #187bcd;
+
+button:hover {
+    background: #558b2f;
 }
-</style>
-</head>
-<body>
 
-<h1>根层结构 - 第三层</h1>
-
-<div class="slider-container">
-    <label>基础稳定性：
-        <input type="range" id="root" min="0" max="100" value="50" oninput="updateValue('root', this.value)">
-        <span class="value-display" id="rootValue">50</span>
-    </label>
-</div>
-
-<div class="slider-container">
-    <label>能量储备：
-        <input type="range" id="energy" min="0" max="100" value="50" oninput="updateValue('energy', this.value)">
-        <span class="value-display" id="energyValue">50</span>
-    </label>
-</div>
-
-<button class="button" onclick="goBack()">返回首页</button>
-
-<script>
-function updateValue(key, value) {
-    window.systemStructure.rootLayer[key] = Number(value);
-    document.getElementById(key + 'Value').innerText = value;
+.section {
+    border: 1px solid #ccc;
+    margin: 20px 0;
+    padding: 15px;
+    border-radius: 8px;
+    background: #fff;
 }
-function goBack() {
-    window.location.href = 'index.html';
-}
-</script>
 
-</body>
-</html>
+input[type="text"], input[type="number"], select {
+    padding: 5px;
+    margin: 5px;
+}
+
+ul {
+    list-style-type: disc;
+    text-align: left;
+    padding-left: 40px;
+}
