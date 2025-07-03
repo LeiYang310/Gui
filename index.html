@@ -9,7 +9,7 @@
 <div class="container">
     <h1>龟壳智能探测</h1>
     <p>请输入探测对象：</p>
-    <input type="text" id="targetName">
+    <input type="text" id="targetName" placeholder="对象姓名">
     <br><br>
     <button onclick="startBasic()">普通模式</button>
     <button onclick="startAdvanced()">进阶模式</button>
@@ -24,7 +24,7 @@ function startBasic() {
     location.href = "basic_detect.html?name=" + encodeURIComponent(getName());
 }
 function startAdvanced() {
-    location.href = "advanced_detect.html?name=" + encodeURIComponent(getName());
+    location.href = "advanced.html?name=" + encodeURIComponent(getName());
 }
 </script>
 </body>
