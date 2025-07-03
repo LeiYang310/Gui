@@ -2,133 +2,84 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <title>宇宙智能探测 - 信息联动版</title>
+    <title>系统缓冲递进与私密干预版</title>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; padding-top: 30px; }
         input, button { padding: 8px 12px; margin: 5px; }
-        input[type=range] { width: 200px; }
-        .section { margin-top: 30px; border: 1px solid #ccc; padding: 15px; width: 350px; margin-left: auto; margin-right: auto; }
-        h3 { margin-bottom: 15px; }
-        #resultArea { margin-top: 30px; }
-        pre { white-space: pre-wrap; text-align: left; display: inline-block; margin-top: 10px; }
+        #publicStatus, #privateStatus { margin-top: 20px; padding: 10px; border: 1px solid #ccc; width: 350px; margin-left: auto; margin-right: auto; }
     </style>
 </head>
 <body>
 
-<h2>宇宙智能探测 - 信息联动版</h2>
-<input type="text" id="nameInput" placeholder="请输入名称">
-<button id="detectBtn">智能探测</button>
+<h2>系统缓冲递进 + 观察窗口 + 设计者私密干预</h2>
 
-<div id="details" style="display:none;">
-    <div class="section">
-        <h3>内部参数</h3>
-        情绪值： <span id="emotionVal">0</span><br>
-        <input type="range" id="emotionSlider" min="0" max="100"><br><br>
-        智能强度： <span id="intelligenceVal">0</span><br>
-        <input type="range" id="intelligenceSlider" min="0" max="100"><br><br>
-        外部压力： <span id="pressureVal">0</span><br>
-        <input type="range" id="pressureSlider" min="0" max="100"><br><br>
-    </div>
-</div>
+<div id="publicStatus"></div>
+<hr>
+<div id="privateStatus"></div>
 
-<div id="resultArea" style="display:none;">
-    <h3>系统综合反馈</h3>
-    <div id="resultText"></div>
-</div>
-
-<br><br>
-<button onclick="goToOverview()">返回总览</button>
+<br>
+<button onclick="manualOverride('意志强度', 45)">提升意志强度</button>
+<button onclick="manualOverride('内在意图', 50)">强化内在意图</button>
 
 <script>
-const probe = {
-    status: "未激活",
-    probeData: null,
 
-    activate() {
-        this.status = "已激活";
-    },
+// 公开缓冲参数
+const publicAdjustmentPlan = {
+    "社会资源": { target: 40, current: 25, dailyChange: 2 },
+    "环境安全感": { target: 45, current: 30, dailyChange: 3 },
+    "物质环境影响": { target: 35, current: 20, dailyChange: 1.5 }
+};
 
-    detect(name) {
-        if (this.status !== "已激活") {
-            alert("请先激活探头");
-            return;
+// 设计者私密即时干预参数
+const privateImmediateParams = {
+    "意志强度": 30,
+    "内在意图": 35
+};
+
+// 缓冲递进逻辑
+function processPublicAdjustment() {
+    for (const key in publicAdjustmentPlan) {
+        const param = publicAdjustmentPlan[key];
+        if (param.current < param.target) {
+            param.current = Math.min(param.current + param.dailyChange, param.target);
         }
-
-        const infoData = fetchRealInfo(name);
-        this.probeData = {
-            "对象名称": name,
-            "情绪值": infoData["情绪值"],
-            "智能强度": infoData["智能强度"],
-            "外部压力": infoData["外部压力"]
-        };
-        this.showResult();
-    },
-
-    showResult() {
-        document.getElementById("details").style.display = "block";
-        document.getElementById("resultArea").style.display = "block";
-
-        const setVal = (id, key) => {
-            document.getElementById(id + "Val").innerText = this.probeData[key];
-            document.getElementById(id + "Slider").value = this.probeData[key];
-            document.getElementById(id + "Slider").oninput = (e) => {
-                this.probeData[key] = e.target.value;
-                document.getElementById(id + "Val").innerText = e.target.value;
-                syncToInformationLayer(this.probeData["对象名称"], key, e.target.value);
-                this.showResult();
-            };
-        };
-
-        setVal("emotion", "情绪值");
-        setVal("intelligence", "智能强度");
-        setVal("pressure", "外部压力");
-
-        const score = Math.round(
-            (parseFloat(this.probeData["情绪值"]) +
-            parseFloat(this.probeData["智能强度"]) +
-            parseFloat(this.probeData["外部压力"])) / 3
-        );
-
-        document.getElementById("resultText").innerHTML =
-            `<pre>探测对象：${this.probeData["对象名称"]}\n综合评分：${score}</pre>`;
     }
-};
-
-// 模拟真实信息通路
-function fetchRealInfo(name) {
-    console.log(`探测真实信息：${name}`);
-    return {
-        "情绪值": random(0, 50),
-        "智能强度": random(0, 50),
-        "外部压力": random(0, 50)
-    };
 }
 
-function syncToInformationLayer(targetName, key, value) {
-    console.log(`信息联动：对象[${targetName}]，参数[${key}]已调整为：${value}`);
-    if (typeof externalInterface !== "undefined") {
-        externalInterface.updateParameter(targetName, key, value);
+// 页面状态更新
+function updateDisplay() {
+    const publicSection = document.getElementById("publicStatus");
+    publicSection.innerHTML = "<h3>外部可观察指标</h3>";
+
+    for (const key in publicAdjustmentPlan) {
+        const param = publicAdjustmentPlan[key];
+        const daysLeft = param.dailyChange > 0 ? Math.ceil((param.target - param.current) / param.dailyChange) : "已达成";
+        publicSection.innerHTML += `<p>${key}：当前 ${param.current} → 目标 ${param.target}，预计 ${daysLeft} 天达成</p>`;
     }
-    alert(`已联动信息层，参数【${key}】调整为：${value}`);
+
+    const privateSection = document.getElementById("privateStatus");
+    privateSection.innerHTML = `
+        <h3>设计者私密控制区</h3>
+        <p>意志强度：系统已即时调整，外部不提供追踪</p>
+        <p>内在意图：系统已即时调整，外部不提供追踪</p>
+    `;
 }
 
-function random(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function goToOverview() {
-    window.location.href = "system_overview.html";
-}
-
-probe.activate();
-document.getElementById("detectBtn").onclick = () => {
-    const name = document.getElementById("nameInput").value.trim();
-    if (name === "") {
-        alert("请输入名称再探测");
-        return;
+// 设计者私密干预
+function manualOverride(param, value) {
+    if (privateImmediateParams.hasOwnProperty(param)) {
+        privateImmediateParams[param] = value;
+        alert(`设计者已将【${param}】即时调整为 ${value}`);
     }
-    probe.detect(name);
-};
+}
+
+// 初始化
+updateDisplay();
+setInterval(() => {
+    processPublicAdjustment();
+    updateDisplay();
+}, 3000); // 3秒模拟1天
+
 </script>
 
 </body>
