@@ -5,38 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>外部条件模块 - 第二层</title>
 <style>
-body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    margin: 30px;
-    background: linear-gradient(135deg, #f0f8ff, #ffe4e1);
-}
-h1 {
-    color: #333;
-}
-.slider-container {
-    margin: 20px 0;
-}
-input[type=range] {
-    width: 250px;
-}
-.value-display {
-    font-weight: bold;
-    margin-left: 10px;
-}
-.button {
-    margin-top: 30px;
-    padding: 10px 20px;
-    background-color: #1e90ff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
-}
-.button:hover {
-    background-color: #187bcd;
-}
+body { font-family: Arial, sans-serif; text-align: center; margin: 30px; background: linear-gradient(135deg, #f0f8ff, #ffe4e1); }
+.slider-container { margin: 20px 0; }
+input[type=range] { width: 250px; }
+.value-display { font-weight: bold; margin-left: 10px; }
+.button { margin-top: 30px; padding: 10px 20px; background-color: #1e90ff; color: white; border: none; border-radius: 5px; cursor: pointer; }
 </style>
 </head>
 <body>
@@ -44,53 +17,35 @@ input[type=range] {
 <h1>外部条件模块 - 第二层</h1>
 
 <div class="slider-container">
-    <label>社会角色预期：
-        <input type="range" id="expectation" min="0" max="100" value="50" oninput="updateCondition('socialExpectations', this.value)">
-        <span class="value-display" id="expectationValue">50</span>
-    </label>
+<label>社会角色预期：
+<input type="range" id="expectation" min="0" max="100" value="50" oninput="updateExternalCondition('socialExpectations', this.value)">
+<span class="value-display" id="expectationValue">50</span>
+</label>
 </div>
 
 <div class="slider-container">
-    <label>群体压力：
-        <input type="range" id="pressure" min="0" max="100" value="50" oninput="updateCondition('groupPressure', this.value)">
-        <span class="value-display" id="pressureValue">50</span>
-    </label>
+<label>群体压力：
+<input type="range" id="pressure" min="0" max="100" value="50" oninput="updateExternalCondition('groupPressure', this.value)">
+<span class="value-display" id="pressureValue">50</span>
+</label>
 </div>
 
 <div class="slider-container">
-    <label>物质条件：
-        <input type="range" id="material" min="0" max="100" value="50" oninput="updateCondition('materialEnvironment', this.value)">
-        <span class="value-display" id="materialValue">50</span>
-    </label>
+<label>物质条件：
+<input type="range" id="material" min="0" max="100" value="50" oninput="updateExternalCondition('materialEnvironment', this.value)">
+<span class="value-display" id="materialValue">50</span>
+</label>
 </div>
 
 <button class="button" onclick="goBack()">返回首页</button>
 
 <script src="app.js"></script>
 <script>
-// 页面显示更新 + 变量联动
-function updateCondition(key, value) {
-    document.getElementById(keyMap[key]).innerText = value;
-    if (typeof window.externalConditions === 'undefined') {
-        window.externalConditions = {
-            socialExpectations: 50,
-            groupPressure: 50,
-            materialEnvironment: 50
-        };
-    }
-    externalConditions[key] = Number(value);
-    console.log("外部条件实时更新：", externalConditions);
+function updateExternalCondition(key, value) {
+    window.userData[window.currentUser].externalConditions[key] = Number(value);
+    document.getElementById(key + 'Value').innerText = value;
 }
-
-// 映射关系
-const keyMap = {
-    socialExpectations: "expectationValue",
-    groupPressure: "pressureValue",
-    materialEnvironment: "materialValue"
-};
-
 function goBack() {
-    console.log("最终外部条件：", externalConditions);
     window.location.href = 'index.html';
 }
 </script>
