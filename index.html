@@ -1,167 +1,33 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-<meta charset="UTF-8">
-<title>宇宙智能探测 · 递进控制整合版</title>
-<style>
-    body {
-        margin: 0;
-        padding: 0;
-        background: url('您的背景图片地址.jpg') no-repeat center center fixed;
-        background-size: cover;
-        font-family: "微软雅黑", sans-serif;
-        color: #333;
-    }
-    .container {
-        background: rgba(255,255,255,0.85);
-        margin: 50px auto;
-        padding: 20px;
-        border-radius: 10px;
-        width: 85%;
-        max-width: 900px;
-        text-align: center;
-    }
-    h1 {
-        font-size: 28px;
-        color: #444;
-    }
-    .param {
-        margin: 15px 0;
-        text-align: left;
-    }
-    input[type=range] {
-        width: 60%;
-    }
-    .section {
-        border: 1px solid #ccc;
-        background: #fff;
-        padding: 15px;
-        margin: 20px 0;
-        border-radius: 8px;
-    }
-    #logoArea img {
-        width: 120px;
-        margin-top: 20px;
-    }
-</style>
+    <meta charset="UTF-8">
+    <title>龟壳智能探测</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-
 <div class="container">
-    <h1>宇宙智能探测 · 递进控制整合版</h1>
-
-    <div id="logoArea">
-        <img src="您的猫乌龟图片.gif" alt="系统LOGO">
-    </div>
-
-    <div>
-        <input type="text" id="targetName" placeholder="请输入探测对象">
-        <button onclick="startDetection()">智能探测</button>
-    </div>
-
-    <div id="resultArea" style="display:none;">
-        <h2>探测对象：<span id="displayName"></span></h2>
-
-        <div class="section">
-            <h3>综合状态</h3>
-            动能：<span id="energyVal">0</span>%
+    <h1>龟壳智能探测</h1>
+    <div class="input-section">
+        <input type="text" id="targetName" placeholder="请输入探测对象姓名">
+        <div class="button-group">
+            <button onclick="startBasic()">普通模式</button>
+            <button onclick="startAdvanced()">进阶模式</button>
         </div>
-
-        <div class="section">
-            <h3>内因功能区</h3>
-            <div class="param">Ti逻辑判断：<input type="range" id="ti" min="0" max="100"><span id="tiVal"></span></div>
-            <div class="param">Fi价值系统：<input type="range" id="fi" min="0" max="100"><span id="fiVal"></span></div>
-            <div class="param">Ni预测能力：<input type="range" id="ni" min="0" max="100"><span id="niVal"></span></div>
-            <div class="param">Se外部感知：<input type="range" id="se" min="0" max="100"><span id="seVal"></span></div>
-        </div>
-
-        <div class="section">
-            <h3>外因功能区</h3>
-            <div class="param">社交资源：<input type="range" id="social" min="0" max="100"><span id="socialVal"></span></div>
-            <div class="param">社会期待：<input type="range" id="expectation" min="0" max="100"><span id="expectationVal"></span></div>
-            <div class="param">物质基础：<input type="range" id="material" min="0" max="100"><span id="materialVal"></span></div>
-        </div>
-
-        <div class="section">
-            <h3>目标设定</h3>
-            目标参数：
-            <select id="goalParam">
-                <option value="ti">Ti逻辑判断</option>
-                <option value="fi">Fi价值系统</option>
-                <option value="ni">Ni预测能力</option>
-                <option value="social">社交资源</option>
-            </select>
-            目标值：<input type="number" id="goalValue" min="0" max="100">
-            时间：
-            <select id="goalTime">
-                <option value="30">30天</option>
-                <option value="90">90天</option>
-                <option value="180">180天</option>
-            </select>
-            <button onclick="setGoal()">确认目标</button>
-            <p id="goalInfo"></p>
-        </div>
-
     </div>
 </div>
 
 <script>
-function startDetection() {
-    const name = document.getElementById('targetName').value;
-    if (!name) {
-        alert("请输入探测对象名称");
-        return;
-    }
-    document.getElementById('displayName').innerText = name;
-    document.getElementById('resultArea').style.display = "block";
-
-    ['ti','fi','ni','se','social','expectation','material'].forEach(id => {
-        const val = Math.floor(Math.random()*51)+25;
-        setVal(id, val);
-    });
-    calcEnergy();
+function getName() {
+    const name = document.getElementById('targetName').value.trim();
+    return name || "未知对象";
 }
-
-function setVal(id, val) {
-    document.getElementById(id).value = val;
-    document.getElementById(id+'Val').innerText = val;
-    document.getElementById(id).oninput = () => {
-        document.getElementById(id+'Val').innerText = document.getElementById(id).value;
-        calcEnergy();
-    }
+function startBasic() {
+    location.href = "basic_mode.html?name=" + encodeURIComponent(getName());
 }
-
-function calcEnergy() {
-    const ids = ['ti','fi','ni','se','social','expectation','material'];
-    let sum = 0;
-    ids.forEach(id => sum += parseInt(document.getElementById(id).value));
-    const energy = Math.round(sum/ids.length);
-    document.getElementById('energyVal').innerText = energy;
-}
-
-function setGoal() {
-    const param = document.getElementById('goalParam').value;
-    const target = parseInt(document.getElementById('goalValue').value);
-    const days = parseInt(document.getElementById('goalTime').value);
-    const current = parseInt(document.getElementById(param).value);
-
-    if (isNaN(target) || target < 0 || target > 100) {
-        alert("请设定有效的目标值");
-        return;
-    }
-
-    const diff = target - current;
-    if (diff <= 0) {
-        alert("目标值需高于当前状态");
-        return;
-    }
-
-    const dailyIncrease = (diff / days).toFixed(2);
-    document.getElementById('goalInfo').innerText =
-        `目标：${param} 提升至 ${target}，预计每日需递增 ${dailyIncrease} 单位，周期：${days}天`;
+function startAdvanced() {
+    location.href = "advanced_mode.html?name=" + encodeURIComponent(getName());
 }
 </script>
-
 </body>
 </html>
