@@ -20,12 +20,10 @@ h2 { margin-top: 30px; }
 
 <h2>选择用户身份</h2>
 <select id="userSelector" onchange="switchUser()">
-    <option value="user001">用户001</option>
-    <option value="user002">用户002</option>
 </select>
 
 <h2>新增用户</h2>
-<input type="text" id="newUserId" placeholder="输入新用户ID">
+<input type="text" id="newUserId" placeholder="输入您内心认定的名字">
 <button class="button" onclick="createNewUser()">创建用户</button>
 
 <div class="button-container">
@@ -39,6 +37,9 @@ h2 { margin-top: 30px; }
 
 <script src="app.js"></script>
 <script>
+window.userData = {};  // 初始化空结构
+window.currentUser = '';
+
 function switchUser() {
     const selector = document.getElementById('userSelector');
     window.currentUser = selector.value;
@@ -48,7 +49,7 @@ function switchUser() {
 function createNewUser() {
     const newId = document.getElementById('newUserId').value.trim();
     if (newId === '') {
-        alert('用户ID不能为空');
+        alert('用户名称不能为空');
         return;
     }
     if (window.userData.hasOwnProperty(newId)) {
@@ -67,7 +68,7 @@ function createNewUser() {
     selector.appendChild(option);
     selector.value = newId;
     window.currentUser = newId;
-    alert('新用户已创建并切换至：' + newId);
+    alert('已创建并切换至：' + newId);
 }
 
 function goToExternal() { window.location.href = 'external_conditions.html'; }
