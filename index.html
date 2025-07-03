@@ -6,7 +6,6 @@
 <div id="details" style="margin-top:20px;"></div>
 <br>
 <button onclick="goToOverview()">返回总览</button>
-
 <script>
     const probe = {
         status: "未激活",
@@ -37,7 +36,6 @@
             const detDiv = document.getElementById("details");
             resDiv.innerText = `探测结果：发现【${this.probeData["对象名称"]}】的宇宙智能反应`;
 
-            // 动态生成数值与滑动条
             detDiv.innerHTML = `
                 情绪值：<span id="emotionVal">${this.probeData["情绪值"]}</span>
                 <input type="range" id="emotionSlider" min="0" max="100" value="${this.probeData["情绪值"]}"><br><br>
@@ -49,7 +47,7 @@
                 <input type="range" id="pressureSlider" min="0" max="100" value="${this.probeData["外部压力"]}">
             `;
 
-            // 绑定滑动条逻辑
+            // 滑动条动态绑定
             document.getElementById("emotionSlider").oninput = (e) => {
                 this.probeData["情绪值"] = e.target.value;
                 document.getElementById("emotionVal").innerText = e.target.value;
