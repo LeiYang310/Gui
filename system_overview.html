@@ -1,115 +1,34 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>系统总控概览</title>
-<style>
-body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    margin: 30px;
-    background: linear-gradient(135deg, #f0f8ff, #ffe4e1);
-}
-.data-box {
-    background: #fff;
-    padding: 20px;
-    display: inline-block;
-    text-align: left;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    border-radius: 10px;
-}
-.button {
-    margin: 10px;
-    padding: 10px 20px;
-    background-color: #1e90ff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-</style>
+    <meta charset="UTF-8">
+    <title>系统总览控制台</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding-top: 50px; }
+        h2 { margin-bottom: 40px; }
+        .btn-container { display: flex; justify-content: center; flex-wrap: wrap; gap: 20px; }
+        button {
+            padding: 15px 25px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
 
-<h1>系统总控概览</h1>
+<h2>系统总览控制台</h2>
 
-<div class="data-box" id="overview">
-加载中...
-</div>
-
-<div>
-    <button class="button" onclick="loadData()">刷新数据</button>
-    <button class="button" onclick="goBack()">返回首页</button>
+<div class="btn-container">
+    <button onclick="goTo('index.html')">宇宙智能探测</button>
+    <button onclick="goTo('external_conditions.html')">外部条件模块</button>
+    <button onclick="goTo('internal_functions.html')">内部功能模块</button>
+    <button onclick="goTo('root_layer.html')">根层结构</button>
 </div>
 
 <script>
-// 关键数据结构，必须初始化
-window.systemStructure = {
-    externalConditions: {
-        socialExpectations: {
-            appearance: 50,
-            reputation: 50,
-            statusSymbol: 50,
-            fearOfLosingOpportunity: 50
-        },
-        groupPressure: {
-            peerComparison: 50,
-            conformityNeed: 50,
-            rejectionFear: 50,
-            groupValidation: 50
-        },
-        materialEnvironment: {
-            wealth: 50,
-            resourceAccess: 50,
-            livingConditions: 50,
-            financialFreedom: 50
-        }
-    },
-    internalFunctions: {
-        ni: 50,
-        ti: 50,
-        te: 50
-    },
-    rootLayer: {
-        root: 50,
-        energy: 50
+    function goTo(page) {
+        window.location.href = page;
     }
-};
-
-function loadData() {
-    const s = window.systemStructure;
-    document.getElementById('overview').innerHTML = `
-    <h3>外部条件：</h3>
-    外貌：${s.externalConditions.socialExpectations.appearance}<br>
-    社会口碑：${s.externalConditions.socialExpectations.reputation}<br>
-    地位象征：${s.externalConditions.socialExpectations.statusSymbol}<br>
-    害怕失去机会：${s.externalConditions.socialExpectations.fearOfLosingOpportunity}<br>
-    群体比较：${s.externalConditions.groupPressure.peerComparison}<br>
-    从众需求：${s.externalConditions.groupPressure.conformityNeed}<br>
-    害怕排斥：${s.externalConditions.groupPressure.rejectionFear}<br>
-    群体认同：${s.externalConditions.groupPressure.groupValidation}<br>
-    财富水平：${s.externalConditions.materialEnvironment.wealth}<br>
-    资源获取：${s.externalConditions.materialEnvironment.resourceAccess}<br>
-    居住环境：${s.externalConditions.materialEnvironment.livingConditions}<br>
-    财富自由：${s.externalConditions.materialEnvironment.financialFreedom}<br><br>
-
-    <h3>内部功能：</h3>
-    内在意图 (Ni)：${s.internalFunctions.ni}<br>
-    逻辑判断 (Ti)：${s.internalFunctions.ti}<br>
-    外部逻辑执行 (Te)：${s.internalFunctions.te}<br><br>
-
-    <h3>根层结构：</h3>
-    基础稳定性：${s.rootLayer.root}<br>
-    能量储备：${s.rootLayer.energy}<br>
-    `;
-}
-
-function goBack() {
-    window.location.href = 'index.html';
-}
-
-window.onload = loadData;
 </script>
 
 </body>
