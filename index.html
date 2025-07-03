@@ -190,8 +190,23 @@
                 feedback = "系统状态：较弱，需优化外部与内部条件";
             }
 
+            let weakFactors = [];
+            for (const [key, value] of Object.entries(this.probeData)) {
+                if (key === "对象名称") continue;
+                if (value <= 20) {
+                    weakFactors.push(`${key}：${value}`);
+                }
+            }
+
+            let weakText = "";
+            if (weakFactors.length > 0) {
+                weakText = `\n\n【低评分关键指标】：\n` + weakFactors.join("\n");
+            } else {
+                weakText = `\n\n所有指标均处于良好区间`;
+            }
+
             document.getElementById("resultText").innerHTML =
-                `<pre>探测对象：${this.probeData["对象名称"]}\n综合评分：${finalScore}\n${feedback}</pre>`;
+                `<pre>探测对象：${this.probeData["对象名称"]}\n综合评分：${finalScore}\n${feedback}${weakText}</pre>`;
         }
     };
 
