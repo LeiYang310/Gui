@@ -1,5 +1,6 @@
 body {
-    background-color: #e8f5e9; /* 马卡龙绿底色 */
+    background: url('https://www.dropbox.com/scl/fi/cf5oeceizznhw3c7xf94c/white-flower.jpg?rlkey=3h8mshjys93jggv0jd05uto7p&raw=1') no-repeat center center fixed;
+    background-size: cover;
     font-family: Arial, sans-serif;
     color: #333;
     text-align: center;
@@ -8,12 +9,12 @@ body {
 }
 
 .container {
-    background: rgba(255, 255, 255, 0.9);
-    margin: 40px auto;
+    background: rgba(255,255,255,0.95);
+    margin: 50px auto;
     padding: 20px;
     border-radius: 10px;
-    width: 85%;
-    max-width: 800px;
+    width: 90%;
+    max-width: 850px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
