@@ -59,6 +59,10 @@
 <script>
 // 核心逻辑整合
 
+// 重要关系人名单，可自定义
+const importantList = ["我自己", "小孩", "配偶", "重要朋友"];
+
+// 初始化探测流程
 function initiateDetection() {
     const name = document.getElementById('targetName').value.trim();
     if (!name) {
@@ -67,9 +71,14 @@ function initiateDetection() {
     }
     generateMainContent();
     document.getElementById("mainContent").style.display = "block";
-    loadStoredData(name);
+    if (importantList.includes(name)) {
+        loadStoredData(name);
+    } else {
+        randomDisplay();
+    }
 }
 
+// 生成界面
 function generateMainContent() {
     const content = document.getElementById("mainContent");
     content.innerHTML = `
@@ -104,10 +113,11 @@ function generateSlider(label, id) {
     `;
 }
 
+// 更新并存储重要对象数据
 function updateTotalsAndStore() {
     updateTotals();
     const name = document.getElementById('targetName').value.trim();
-    if (!name) return;
+    if (!name || !importantList.includes(name)) return;
     const data = {
         social: getVal('social'),
         pressure: getVal('pressure'),
@@ -140,6 +150,7 @@ function updateTotals() {
     });
 }
 
+// 重要对象：读取历史数据
 function loadStoredData(name) {
     const key = "龟壳_" + name;
     if (localStorage.getItem(key)) {
@@ -147,14 +158,20 @@ function loadStoredData(name) {
         for (let id in data) {
             document.getElementById(id).value = data[id];
         }
-        updateTotals();
     } else {
         ["social","pressure","expectation","material","appearance","ti","fi","ni","se"].forEach(id => {
-            const value = random(50);
-            document.getElementById(id).value = value;
+            document.getElementById(id).value = random(50);
         });
-        updateTotalsAndStore();
     }
+    updateTotals();
+}
+
+// 普通对象：仅随机展示
+function randomDisplay() {
+    ["social","pressure","expectation","material","appearance","ti","fi","ni","se"].forEach(id => {
+        document.getElementById(id).value = random(50);
+    });
+    updateTotals();
 }
 
 function avg(ids) {
