@@ -42,6 +42,19 @@ body {
     transform: scale(1.1);
     background: linear-gradient(45deg, #ff69b4, #ff1493);
 }
+.button {
+    margin-top: 30px;
+    padding: 10px 20px;
+    background-color: #1e90ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+.button:hover {
+    background-color: #187bcd;
+}
 h1 {
     color: #333;
 }
@@ -55,8 +68,12 @@ h1 {
     <div class="circle-button" onclick="goToExternal()">外部条件模块</div>
     <div class="circle-button" onclick="goToInternal()">内部功能模块</div>
     <div class="circle-button" onclick="goToRoot()">根层模块</div>
+</div>
+
+<!-- 总控启动按钮，独立位置 -->
 <button class="button" onclick="controlNextNode()">总控启动</button>
-    </div>
+
+<script src="app.js"></script>
 <script>
 function goToExternal() {
     window.location.href = 'external_conditions.html';
