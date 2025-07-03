@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>普通模式 · 龟壳智能探测</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <h1>普通模式 · 龟壳智能探测</h1>
+    <p>探测对象：<span id="targetName"></span></p>
+
+    <div class="section">
+        <h2>外因总分：<span id="outerScore">0</span></h2>
+        <input type="range" id="outerSlider" min="0" max="100" value="50" oninput="updateScores()">
+    </div>
+
+    <div class="section">
+        <h2>内因总分：<span id="innerScore">0</span></h2>
+        <input type="range" id="innerSlider" min="0" max="100" value="50" oninput="updateScores()">
+    </div>
+
+    <div class="section">
+        <h2>动能状态：<span id="dynamics">0</span></h2>
+    </div>
+
+    <div class="section">
+        <h3>设置变动目标</h3>
+        目标值：<input type="number" id="targetValue" min="0" max="100">
+        时间周期：
+        <select id="timeSelect">
+            <option value="30">1个月</option>
+            <option value="90">3个月</option>
+            <option value="180">半年</option>
+            <option value="365">1年</option>
+        </select>
+        <button onclick="setGoal()">确认目标</button>
+    </div>
+
+    <div class="section">
+        <h3>历史记录</h3>
+        <ul id="historyList"></ul>
+    </div>
+
+    <button onclick="goHome()">回到主页</button>
+</div>
+
+<script>
+const params = new URLSearchParams(location.search);
+const name = params.get("name") || "未知对象";
+document.getElementById("targetName").innerText = name;
+
+function updateScores() {
+    const outer = parseInt(document.getElementById("outerSlider").value);
+    const inner = parseInt(document.getElementById("innerSlider").value);
+    document.getElementById("outerScore").innerText = outer;
+    document.getElementById("innerScore").innerText = inner;
+    const dynamics = Math.round((outer + inner) / 2);
+    document.getElementById("dynamics").innerText = dynamics;
+}
+
+function setGoal() {
+    const value = document.getElementById("targetValue").value;
+    const time = document.getElementById("timeSelect").value;
+    const date = new Date().toLocaleDateString();
+    const item = `${date} Lei将总值调整至${value}，周期：${time}天`;
+    const li = document.createElement("li");
+    li.innerText = item;
+    document.getElementById("historyList").appendChild(li);
+}
+
+function goHome() {
+    location.href = "index.html";
+}
+
+updateScores();
+</script>
+</body>
+</html>
