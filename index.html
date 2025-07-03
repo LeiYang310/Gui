@@ -1,31 +1,74 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<title>龟壳智能探测</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>龟壳智能探测</title>
+    <style>
+        body {
+            background-image: url('white flower.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            font-family: Arial, sans-serif;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.85);
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .section {
+            margin: 20px 0;
+            text-align: left;
+        }
+        label {
+            display: inline-block;
+            width: 140px;
+        }
+        input[type="range"] {
+            width: 200px;
+        }
+        #result {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        button {
+            padding: 8px 15px;
+            margin-top: 10px;
+        }
+        .history {
+            text-align: left;
+            margin-top: 15px;
+            background: #e7f7e7;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
+
 <div class="container">
-    <h1>龟壳智能探测</h1>
-    <p>请输入探测对象：</p>
-    <input type="text" id="targetName" placeholder="对象姓名">
-    <br><br>
-    <button onclick="startBasic()">普通模式</button>
-    <button onclick="startAdvanced()">进阶模式</button>
+    <h2>进阶模式 · 龟壳智能探测</h2>
+
+    <div>
+        <label>探测对象：</label>
+        <input type="text" id="targetName" placeholder="请输入姓名">
+        <button onclick="initiateDetection()">智能探测</button>
+    </div>
+
+    <div id="mainContent" style="display:none;">
+        <!-- 动态区域稍后输出 -->
+    </div>
+
 </div>
 
 <script>
-function getName() {
-    const name = document.getElementById('targetName').value.trim();
-    return name || '未知对象';
-}
-function startBasic() {
-    location.href = "basic_detect.html?name=" + encodeURIComponent(getName());
-}
-function startAdvanced() {
-    location.href = "advanced.html?name=" + encodeURIComponent(getName());
-}
+// 下一步输出JS逻辑部分
 </script>
+
 </body>
 </html>
