@@ -18,7 +18,7 @@
 <div id="result"></div>
 
 <script>
-    // 探头模拟逻辑
+    // 探头逻辑
     const probe = {
         status: "未激活",
         probeData: null,
@@ -42,7 +42,7 @@
     // 自动激活探头
     probe.activate();
 
-    // 绑定按钮逻辑
+    // 绑定按钮
     document.getElementById("detectBtn").onclick = () => {
         const name = document.getElementById("nameInput").value.trim();
         if (name === "") {
