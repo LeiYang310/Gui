@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>内部功能模块 - 第二层</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 30px;
+    background: linear-gradient(135deg, #f0fff0, #e6e6fa);
+}
+h1 {
+    color: #333;
+}
+.slider-container {
+    margin: 20px 0;
+}
+input[type=range] {
+    width: 250px;
+}
+.value-display {
+    font-weight: bold;
+    margin-left: 10px;
+}
+.button {
+    margin-top: 30px;
+    padding: 10px 20px;
+    background-color: #32cd32;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+.button:hover {
+    background-color: #2e8b57;
+}
+</style>
+</head>
+<body>
+
+<h1>内部功能模块 - 第二层</h1>
+
+<div class="slider-container">
+    <label>内在意图（Ni）：
+        <input type="range" id="ni" min="0" max="100" value="50" oninput="updateInternal('niValue', this.value)">
+        <span class="value-display" id="niValue">50</span>
+    </label>
+</div>
+
+<div class="slider-container">
+    <label>逻辑判断（Ti）：
+        <input type="range" id="ti" min="0" max="100" value="50" oninput="updateInternal('tiValue', this.value)">
+        <span class="value-display" id="tiValue">50</span>
+    </label>
+</div>
+
+<div class="slider-container">
+    <label>外部逻辑执行（Te）：
+        <input type="range" id="te" min="0" max="100" value="50" oninput="updateInternal('teValue', this.value)">
+        <span class="value-display" id="teValue">50</span>
+    </label>
+</div>
+
+<button class="button" onclick="goBack()">返回首页</button>
+
+<script src="app.js"></script>
+<script>
+// 内部功能变量集中管理
+if (typeof window.internalFunctions === 'undefined') {
+    window.internalFunctions = {
+        ni: 50,
+        ti: 50,
+        te: 50
+    };
+}
+
+function updateInternal(displayId, value) {
+    document.getElementById(displayId).innerText = value;
+    const key = displayId.replace('Value', '');
+    internalFunctions[key] = Number(value);
+    console.log("内部功能实时更新：", internalFunctions);
+}
+
+function goBack() {
+    console.log("最终内部功能值：", internalFunctions);
+    window.location.href = 'index.html';
+}
+</script>
+
+</body>
+</html>
