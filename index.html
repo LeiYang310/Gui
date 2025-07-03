@@ -2,13 +2,14 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <title>宇宙智能探测 - 完整版</title>
+    <title>宇宙智能探测 - 升级版</title>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; padding-top: 50px; }
         input, button { padding: 8px 12px; margin: 5px; }
         input[type=range] { width: 200px; }
         #details { margin-top: 20px; }
         .section { margin-top: 30px; }
+        pre { white-space: pre-wrap; text-align: left; display: inline-block; margin-top: 20px; }
     </style>
 </head>
 <body>
@@ -121,7 +122,6 @@
         },
 
         showResult() {
-            document.getElementById("result").innerText = `探测结果：发现【${this.probeData["对象名称"]}】的宇宙智能反应`;
             document.getElementById("details").style.display = "block";
 
             const setVal = (id, key) => {
@@ -130,6 +130,7 @@
                 document.getElementById(id + "Slider").oninput = (e) => {
                     this.probeData[key] = e.target.value;
                     document.getElementById(id + "Val").innerText = e.target.value;
+                    this.showResult();
                 };
             };
 
@@ -149,6 +150,43 @@
             setVal("socialSupport", "社交资源");
             setVal("publicPressure", "社会舆论压力");
             setVal("uncertainty", "环境变动不确定性");
+
+            const internalAvg = (
+                parseFloat(this.probeData["情绪值"]) +
+                parseFloat(this.probeData["智能强度"]) +
+                parseFloat(this.probeData["外部压力"]) +
+                parseFloat(this.probeData["内在意图"]) +
+                parseFloat(this.probeData["判断倾向"]) +
+                parseFloat(this.probeData["思维清晰度"]) +
+                parseFloat(this.probeData["情绪稳定性"]) +
+                parseFloat(this.probeData["意志强度"])
+            ) / 8;
+
+            const externalAvg = (
+                parseFloat(this.probeData["社会压力"]) +
+                parseFloat(this.probeData["群体期待"]) +
+                parseFloat(this.probeData["物质环境影响"]) +
+                parseFloat(this.probeData["经济资源"]) +
+                parseFloat(this.probeData["环境安全感"]) +
+                parseFloat(this.probeData["社交资源"]) +
+                parseFloat(this.probeData["社会舆论压力"]) +
+                parseFloat(this.probeData["环境变动不确定性"])
+            ) / 8;
+
+            const finalScore = Math.round((internalAvg * 0.6) + (externalAvg * 0.4));
+
+            let feedback = "";
+            if (finalScore >= 80) {
+                feedback = "系统状态：极佳，具备高度智能反应能力";
+            } else if (finalScore >= 60) {
+                feedback = "系统状态：良好，智能表现稳定";
+            } else if (finalScore >= 40) {
+                feedback = "系统状态：一般，存在智能波动";
+            } else {
+                feedback = "系统状态：较弱，需优化外部与内部条件";
+            }
+
+            document.getElementById("result").innerHTML = `<pre>探测结果：发现【${this.probeData["对象名称"]}】的宇宙智能反应\n综合评分：${finalScore}\n${feedback}</pre>`;
         }
     };
 
