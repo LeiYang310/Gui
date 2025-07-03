@@ -1,54 +1,36 @@
-<!DOCTYPE html>
-<html lang="zh">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>外部条件模块 - 第二层</title>
-<style>
-body { font-family: Arial, sans-serif; text-align: center; margin: 30px; background: linear-gradient(135deg, #f0f8ff, #ffe4e1); }
-.slider-container { margin: 20px 0; }
-input[type=range] { width: 250px; }
-.value-display { font-weight: bold; margin-left: 10px; }
-.button { margin-top: 30px; padding: 10px 20px; background-color: #1e90ff; color: white; border: none; border-radius: 5px; cursor: pointer; }
-</style>
-</head>
-<body>
-
 <h1>外部条件模块 - 第二层</h1>
 
-<div class="slider-container">
-<label>社会角色预期：
-<input type="range" id="expectation" min="0" max="100" value="50" oninput="updateExternalCondition('socialExpectations', this.value)">
-<span class="value-display" id="expectationValue">50</span>
-</label>
-</div>
+<h2>社会角色预期</h2>
+外貌影响力：<input type="range" min="0" max="100" id="appearance" oninput="updateValue('appearance', this.value)"> <span id="val_appearance">50</span><br>
+社会口碑：<input type="range" min="0" max="100" id="reputation" oninput="updateValue('reputation', this.value)"> <span id="val_reputation">50</span><br>
+地位象征：<input type="range" min="0" max="100" id="statusSymbol" oninput="updateValue('statusSymbol', this.value)"> <span id="val_statusSymbol">50</span><br>
+害怕失去社会机会：<input type="range" min="0" max="100" id="fearOfLosingOpportunity" oninput="updateValue('fearOfLosingOpportunity', this.value)"> <span id="val_fearOfLosingOpportunity">50</span><br>
 
-<div class="slider-container">
-<label>群体压力：
-<input type="range" id="pressure" min="0" max="100" value="50" oninput="updateExternalCondition('groupPressure', this.value)">
-<span class="value-display" id="pressureValue">50</span>
-</label>
-</div>
+<h2>群体压力</h2>
+群体比较：<input type="range" min="0" max="100" id="peerComparison" oninput="updateValue('peerComparison', this.value)"> <span id="val_peerComparison">50</span><br>
+从众需求：<input type="range" min="0" max="100" id="conformityNeed" oninput="updateValue('conformityNeed', this.value)"> <span id="val_conformityNeed">50</span><br>
+害怕排斥：<input type="range" min="0" max="100" id="rejectionFear" oninput="updateValue('rejectionFear', this.value)"> <span id="val_rejectionFear">50</span><br>
+群体认同：<input type="range" min="0" max="100" id="groupValidation" oninput="updateValue('groupValidation', this.value)"> <span id="val_groupValidation">50</span><br>
 
-<div class="slider-container">
-<label>物质条件：
-<input type="range" id="material" min="0" max="100" value="50" oninput="updateExternalCondition('materialEnvironment', this.value)">
-<span class="value-display" id="materialValue">50</span>
-</label>
-</div>
+<h2>物质环境</h2>
+财富水平：<input type="range" min="0" max="100" id="wealth" oninput="updateValue('wealth', this.value)"> <span id="val_wealth">50</span><br>
+资源获取：<input type="range" min="0" max="100" id="resourceAccess" oninput="updateValue('resourceAccess', this.value)"> <span id="val_resourceAccess">50</span><br>
+居住环境：<input type="range" min="0" max="100" id="livingConditions" oninput="updateValue('livingConditions', this.value)"> <span id="val_livingConditions">50</span><br>
+财富自由：<input type="range" min="0" max="100" id="financialFreedom" oninput="updateValue('financialFreedom', this.value)"> <span id="val_financialFreedom">50</span><br>
 
-<button class="button" onclick="goBack()">返回首页</button>
+<button onclick="goBack()">返回首页</button>
 
-<script src="app.js"></script>
 <script>
-function updateExternalCondition(key, value) {
-    window.userData[window.currentUser].externalConditions[key] = Number(value);
-    document.getElementById(key + 'Value').innerText = value;
+function updateValue(key, value) {
+    window.systemStructure.externalConditions.socialExpectations[key] !== undefined
+        ? window.systemStructure.externalConditions.socialExpectations[key] = Number(value)
+        : window.systemStructure.externalConditions.groupPressure[key] !== undefined
+        ? window.systemStructure.externalConditions.groupPressure[key] = Number(value)
+        : window.systemStructure.externalConditions.materialEnvironment[key] = Number(value);
+
+    document.getElementById('val_' + key).innerText = value;
 }
 function goBack() {
     window.location.href = 'index.html';
 }
 </script>
-
-</body>
-</html>
