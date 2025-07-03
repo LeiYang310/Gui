@@ -2,83 +2,103 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <title>系统缓冲递进与私密干预版</title>
+    <title>宇宙智能探测 - 分层信息版</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding-top: 30px; }
-        input, button { padding: 8px 12px; margin: 5px; }
-        #publicStatus, #privateStatus { margin-top: 20px; padding: 10px; border: 1px solid #ccc; width: 350px; margin-left: auto; margin-right: auto; }
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 30px; }
+        #basicInfo, #detailInfo, #privateControl { width: 360px; margin: 20px auto; padding: 15px; border: 1px solid #ccc; }
+        button { padding: 8px 15px; margin: 10px; }
     </style>
 </head>
 <body>
 
-<h2>系统缓冲递进 + 观察窗口 + 设计者私密干预</h2>
+<h2>宇宙智能探测 - 信息分层显示版</h2>
 
-<div id="publicStatus"></div>
-<hr>
-<div id="privateStatus"></div>
-
-<br>
-<button onclick="manualOverride('意志强度', 45)">提升意志强度</button>
-<button onclick="manualOverride('内在意图', 50)">强化内在意图</button>
+<div id="basicInfo"></div>
+<button onclick="showDetails()">详细查看</button>
+<div id="detailInfo" style="display:none;"></div>
+<div id="privateControl" style="display:none;"></div>
 
 <script>
 
-// 公开缓冲参数
-const publicAdjustmentPlan = {
-    "社会资源": { target: 40, current: 25, dailyChange: 2 },
-    "环境安全感": { target: 45, current: 30, dailyChange: 3 },
-    "物质环境影响": { target: 35, current: 20, dailyChange: 1.5 }
+// 示例参数
+let 综合评分 = 14;
+let 外部压力 = 27;
+let 目标名称 = "胖女人";
+
+// 公共数据示例
+const 基础数据 = {
+    "情绪值": 7,
+    "智能强度": 7,
+    "外部压力": 外部压力
 };
 
-// 设计者私密即时干预参数
-const privateImmediateParams = {
+// 私密参数，设计者专属
+const 私密控制 = {
     "意志强度": 30,
     "内在意图": 35
 };
 
-// 缓冲递进逻辑
-function processPublicAdjustment() {
-    for (const key in publicAdjustmentPlan) {
-        const param = publicAdjustmentPlan[key];
-        if (param.current < param.target) {
-            param.current = Math.min(param.current + param.dailyChange, param.target);
-        }
-    }
-}
-
-// 页面状态更新
-function updateDisplay() {
-    const publicSection = document.getElementById("publicStatus");
-    publicSection.innerHTML = "<h3>外部可观察指标</h3>";
-
-    for (const key in publicAdjustmentPlan) {
-        const param = publicAdjustmentPlan[key];
-        const daysLeft = param.dailyChange > 0 ? Math.ceil((param.target - param.current) / param.dailyChange) : "已达成";
-        publicSection.innerHTML += `<p>${key}：当前 ${param.current} → 目标 ${param.target}，预计 ${daysLeft} 天达成</p>`;
-    }
-
-    const privateSection = document.getElementById("privateStatus");
-    privateSection.innerHTML = `
-        <h3>设计者私密控制区</h3>
-        <p>意志强度：系统已即时调整，外部不提供追踪</p>
-        <p>内在意图：系统已即时调整，外部不提供追踪</p>
+// 初始化页面
+function updateBasicInfo() {
+    document.getElementById("basicInfo").innerHTML = `
+        <h4>探测对象：${目标名称}</h4>
+        <p>情绪值：${基础数据["情绪值"]}</p>
+        <p>智能强度：${基础数据["智能强度"]}</p>
+        <p>外部压力：${基础数据["外部压力"]}</p>
+        <p>综合评分：${综合评分}</p>
     `;
 }
 
-// 设计者私密干预
-function manualOverride(param, value) {
-    if (privateImmediateParams.hasOwnProperty(param)) {
-        privateImmediateParams[param] = value;
-        alert(`设计者已将【${param}】即时调整为 ${value}`);
+// 详细信息展开
+function showDetails() {
+    document.getElementById("detailInfo").style.display = "block";
+    document.getElementById("detailInfo").innerHTML = `
+        <h4>详细参数</h4>
+        <p>思维清晰度：${随机值()}</p>
+        <p>意志强度（部分公开）：${私密控制["意志强度"]}</p>
+        <p>环境波动不确定性：${随机值()}</p>
+    `;
+
+    // 高权限私密区仅设计者可见
+    if (isDesigner()) {
+        document.getElementById("privateControl").style.display = "block";
+        document.getElementById("privateControl").innerHTML = `
+            <h4>设计者私密控制区</h4>
+            <button onclick="干预('意志强度', 50)">提升意志强度</button>
+            <button onclick="干预('内在意图', 50)">强化内在意图</button>
+        `;
     }
 }
 
-// 初始化
-updateDisplay();
-setInterval(() => {
-    processPublicAdjustment();
-    updateDisplay();
-}, 3000); // 3秒模拟1天
+// 设计者身份判断（示例为默认本人）
+function isDesigner() {
+    return true;
+}
+
+// 干预操作
+function 干预(key, value) {
+    if (私密控制.hasOwnProperty(key)) {
+        私密控制[key] = value;
+        alert(`已将【${key}】调整为 ${value}`);
+        showDetails();
+    }
+}
+
+// 自动预警，重要对象自动展开
+function 自动检查() {
+    if (综合评分 < 20 || 外部压力 > 40) {
+        showDetails();
+    }
+}
+
+// 生成随机0-50数值
+function 随机值() {
+    return Math.floor(Math.random() * 51);
+}
+
+// 初始渲染
+updateBasicInfo();
+自动检查();
 
 </script>
 
