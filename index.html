@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>外层控制系统 - 第一层</title>
+<title>宇宙智能探测 - 第一层</title>
 <style>
 body {
     font-family: Arial, sans-serif;
@@ -11,76 +11,31 @@ body {
     margin: 30px;
     background: linear-gradient(135deg, #f0f8ff, #ffe4e1);
 }
-input {
+input, button {
     margin: 5px;
     padding: 5px;
 }
 button {
-    margin: 10px;
-    padding: 8px 15px;
     background-color: #1e90ff;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-}
-#result {
-    margin-top: 20px;
-    padding: 15px;
-    background: #fff;
-    display: inline-block;
-    text-align: left;
-    box-shadow: 0 0 8px rgba(0,0,0,0.1);
-    border-radius: 8px;
+    padding: 8px 15px;
 }
 </style>
 </head>
 <body>
 
-<h1>外层控制系统 - 第一层</h1>
-
-<h3>新增用户</h3>
-<input type="text" id="username" placeholder="输入名字"><br>
-
-<label>社会角色预期：</label><input type="number" id="social" value="50"><br>
-<label>群体压力：</label><input type="number" id="group" value="50"><br>
-<label>物质条件：</label><input type="number" id="material" value="50"><br>
-<label>内在意图 (Ni)：</label><input type="number" id="ni" value="50"><br>
-<label>逻辑判断 (Ti)：</label><input type="number" id="ti" value="50"><br>
-<label>外部逻辑执行 (Te)：</label><input type="number" id="te" value="50"><br>
-<label>基础稳定性：</label><input type="number" id="root" value="50"><br>
-<label>能量储备：</label><input type="number" id="energy" value="50"><br>
-
-<br>
-<button onclick="createUser()">创建用户</button>
-
-<div id="result">请创建用户后查看数据</div>
+<h1>宇宙智能探测</h1>
+<input type="text" id="username" placeholder="输入名字">
+<button onclick="startDetection()">智能探测</button>
 
 <script>
-function createUser() {
+function startDetection(){
     const name = document.getElementById('username').value || '未命名';
-    const social = document.getElementById('social').value;
-    const group = document.getElementById('group').value;
-    const material = document.getElementById('material').value;
-    const ni = document.getElementById('ni').value;
-    const ti = document.getElementById('ti').value;
-    const te = document.getElementById('te').value;
-    const root = document.getElementById('root').value;
-    const energy = document.getElementById('energy').value;
-
-    const output = `
-    <h3>用户数据 - ${name}</h3>
-    社会角色预期：${social}<br>
-    群体压力：${group}<br>
-    物质条件：${material}<br>
-    内在意图 (Ni)：${ni}<br>
-    逻辑判断 (Ti)：${ti}<br>
-    外部逻辑执行 (Te)：${te}<br>
-    基础稳定性：${root}<br>
-    能量储备：${energy}<br>
-    `;
-
-    document.getElementById('result').innerHTML = output;
+    alert('智能探测启动：' + name);
+    // 后续跳转或展开结构将在下一层实现
 }
 </script>
 
