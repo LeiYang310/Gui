@@ -1,150 +1,107 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-    <meta charset="UTF-8">
-    <title>宇宙智能探测 - 整理清晰版</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin-top: 30px; }
-        .模块区 { width: 360px; margin: 20px auto; padding: 15px; border: 1px solid #ccc; }
-        button { padding: 8px 15px; margin: 5px; }
-        progress { width: 200px; }
-        input { padding: 5px; width: 180px; }
-    </style>
+<meta charset="UTF-8">
+<title>宇宙智能探测 - 标准探测版</title>
+<style>
+    body { font-family: Arial; text-align: center; }
+    .container { margin-top: 50px; }
+    .block { border: 1px solid #ccc; padding: 15px; margin: 20px auto; width: 300px; text-align: left; }
+    .slider { width: 100%; }
+    button { margin-top: 10px; }
+</style>
 </head>
 <body>
 
-<h2>宇宙智能探测 - 内外因分层整理清晰版</h2>
+<h2>宇宙智能探测 - 标准探测版</h2>
 
-<!-- 输入区域 -->
-<div style="margin-bottom: 20px;">
-    <label>请输入对象名称：</label>
-    <input type="text" id="目标输入" placeholder="如 张三、李四">
-    <button onclick="确认对象()">确认探测</button>
+<div class="container">
+    <input type="text" id="nameInput" placeholder="输入探测对象">
+    <button onclick="probe()">智能探测</button>
 </div>
 
-<!-- 基础信息 -->
-<div class="模块区" id="基础信息区"></div>
+<div id="resultArea" style="display:none;">
 
-<!-- 控制按钮 -->
-<button onclick="展示外部()">外部因素</button>
-<button onclick="展示内部()">内部因素</button>
-<button onclick="展示内因()">内因功能区</button>
-<button onclick="展示动能()">动能状态</button>
-<button onclick="展示全部()">全部信息</button>
+    <div class="block">
+        <h3>探测对象：<span id="targetName"></span></h3>
+        <p>综合评分：<span id="totalScore"></span></p>
+    </div>
 
-<!-- 各独立区域 -->
-<div class="模块区" id="外部区" style="display:none;"></div>
-<div class="模块区" id="内部区" style="display:none;"></div>
-<div class="模块区" id="内因区" style="display:none;"></div>
-<div class="模块区" id="动能区" style="display:none;"></div>
+    <div class="block">
+        <h4>外部因素</h4>
+        <p>社会资源：<span id="ext1"></span></p>
+        <p>群体期待：<span id="ext2"></span></p>
+        <p>环境安全感：<span id="ext3"></span></p>
+    </div>
+
+    <div class="block">
+        <h4>内部因素</h4>
+        <p>思维清晰度：<span id="int1"></span></p>
+        <p>意志强度：<span id="int2"></span></p>
+        <p>内在意图：<span id="int3"></span></p>
+    </div>
+
+    <div class="block">
+        <h4>内因功能区</h4>
+        <p>Ti 逻辑判断：<span id="funcTi"></span>%</p>
+        <p>Fi 价值系统：<span id="funcFi"></span>%</p>
+        <p>Ni 预测能力：<span id="funcNi"></span>%</p>
+        <p>Se 外部感知：<span id="funcSe"></span>%</p>
+    </div>
+
+    <div class="block">
+        <h4>动能状态</h4>
+        <p>总体动能：<span id="dynamics"></span>%</p>
+    </div>
+
+</div>
 
 <script>
+function random(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
-// 核心数据
-let 目标名称 = "未指定";
-let 综合评分 = 35;
-let 动能值 = 0;
-
-const 外部因素 = {
-    "社会资源": 25,
-    "群体期待": 20,
-    "环境安全感": 15
-};
-
-const 内部因素 = {
-    "思维清晰度": 28,
-    "意志强度": 22,
-    "内在意图": 25
-};
-
-const 内因功能 = {
-    "Ti 逻辑判断": 60,
-    "Fi 价值系统": 40,
-    "Ni 预判能力": 55,
-    "Se 外部感知": 35
-};
-
-function 确认对象() {
-    const 输入值 = document.getElementById("目标输入").value.trim();
-    if (输入值) {
-        目标名称 = 输入值;
-        渲染基础信息();
-        alert(`已切换对象：${目标名称}`);
-    } else {
-        alert("请输入对象名称");
+function probe() {
+    const name = document.getElementById("nameInput").value.trim();
+    if (!name) {
+        alert("请输入探测对象名称！");
+        return;
     }
+
+    // 随机生成数据
+    const data = {
+        ext1: random(0,50),
+        ext2: random(0,50),
+        ext3: random(0,50),
+        int1: random(0,50),
+        int2: random(0,50),
+        int3: random(0,50),
+        funcTi: random(30,70),
+        funcFi: random(20,60),
+        funcNi: random(30,70),
+        funcSe: random(20,60),
+    };
+
+    const total = Math.round( (data.ext1 + data.ext2 + data.ext3 + data.int1 + data.int2 + data.int3) / 6 );
+    const dynamics = Math.round( (data.funcTi + data.funcFi + data.funcNi + data.funcSe) / 4 );
+
+    // 展示数据
+    document.getElementById("targetName").innerText = name;
+    document.getElementById("totalScore").innerText = total;
+    document.getElementById("ext1").innerText = data.ext1;
+    document.getElementById("ext2").innerText = data.ext2;
+    document.getElementById("ext3").innerText = data.ext3;
+    document.getElementById("int1").innerText = data.int1;
+    document.getElementById("int2").innerText = data.int2;
+    document.getElementById("int3").innerText = data.int3;
+    document.getElementById("funcTi").innerText = data.funcTi;
+    document.getElementById("funcFi").innerText = data.funcFi;
+    document.getElementById("funcNi").innerText = data.funcNi;
+    document.getElementById("funcSe").innerText = data.funcSe;
+    document.getElementById("dynamics").innerText = dynamics;
+
+    document.getElementById("resultArea").style.display = "block";
 }
-
-function 渲染基础信息() {
-    document.getElementById("基础信息区").innerHTML = `
-        <h4>对象：${目标名称}</h4>
-        <p>综合评分：${综合评分}</p>
-    `;
-}
-
-function 计算动能() {
-    const 内因平均 = (内因功能["Ti 逻辑判断"] + 内因功能["Fi 价值系统"] + 内因功能["Ni 预判能力"] + 内因功能["Se 外部感知"]) / 4;
-    const 外部压制 = (50 - 外部因素["环境安全感"]) * 0.3; 
-    动能值 = Math.max(Math.round(内因平均 * 0.8 - 外部压制), 0);
-}
-
-function 更新动能区() {
-    document.getElementById("动能区").innerHTML = `
-        <h4>动能状态</h4>
-        <p>总体动能：${动能值}% <progress value="${动能值}" max="100"></progress></p>
-    `;
-}
-
-function 展示外部() {
-    const 区 = document.getElementById("外部区");
-    区.style.display = "block";
-    区.innerHTML = `<h4>外部因素</h4>`;
-    for (const key in 外部因素) {
-        区.innerHTML += `<p>${key}：${外部因素[key]} <progress value="${外部因素[key]}" max="50"></progress></p>`;
-    }
-}
-
-function 展示内部() {
-    const 区 = document.getElementById("内部区");
-    区.style.display = "block";
-    区.innerHTML = `<h4>内部因素</h4>`;
-    for (const key in 内部因素) {
-        区.innerHTML += `<p>${key}：${内部因素[key]} <progress value="${内部因素[key]}" max="50"></progress></p>`;
-    }
-}
-
-function 展示内因() {
-    const 区 = document.getElementById("内因区");
-    区.style.display = "block";
-    区.innerHTML = `<h4>内因功能区</h4>`;
-    for (const key in 内因功能) {
-        let 等级 = "低";
-        if (内因功能[key] >= 70) 等级 = "强";
-        else if (内因功能[key] >= 50) 等级 = "中";
-        区.innerHTML += `<p>${key}：${内因功能[key]}% （${等级}）</p>`;
-    }
-    计算动能();
-    更新动能区();
-}
-
-function 展示动能() {
-    document.getElementById("动能区").style.display = "block";
-    计算动能();
-    更新动能区();
-}
-
-function 展示全部() {
-    展示外部();
-    展示内部();
-    展示内因();
-    展示动能();
-}
-
-// 页面初始化
-渲染基础信息();
-计算动能();
-更新动能区();
-
 </script>
 
 </body>
