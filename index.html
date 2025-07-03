@@ -2,103 +2,130 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <title>宇宙智能探测 - 分层信息版</title>
+    <title>宇宙智能探测 - 整理清晰版</title>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; margin-top: 30px; }
-        #basicInfo, #detailInfo, #privateControl { width: 360px; margin: 20px auto; padding: 15px; border: 1px solid #ccc; }
+        .模块区 { width: 360px; margin: 20px auto; padding: 15px; border: 1px solid #ccc; }
         button { padding: 8px 15px; margin: 10px; }
+        progress { width: 200px; }
     </style>
 </head>
 <body>
 
-<h2>宇宙智能探测 - 信息分层显示版</h2>
+<h2>宇宙智能探测 - 内外因分层整理清晰版</h2>
 
-<div id="basicInfo"></div>
-<button onclick="showDetails()">详细查看</button>
-<div id="detailInfo" style="display:none;"></div>
-<div id="privateControl" style="display:none;"></div>
+<!-- 基础信息 -->
+<div class="模块区" id="基础信息区"></div>
+
+<!-- 控制按钮 -->
+<button onclick="展示外部()">外部因素</button>
+<button onclick="展示内部()">内部因素</button>
+<button onclick="展示内因()">内因功能区</button>
+<button onclick="展示动能()">动能状态</button>
+<button onclick="展示全部()">全部信息</button>
+
+<!-- 各独立区域 -->
+<div class="模块区" id="外部区" style="display:none;"></div>
+<div class="模块区" id="内部区" style="display:none;"></div>
+<div class="模块区" id="内因区" style="display:none;"></div>
+<div class="模块区" id="动能区" style="display:none;"></div>
 
 <script>
 
-// 示例参数
-let 综合评分 = 14;
-let 外部压力 = 27;
-let 目标名称 = "胖女人";
+// 核心参数区
+let 目标名称 = "测试对象";
+let 综合评分 = 35;
+let 动能值 = 0;
 
-// 公共数据示例
-const 基础数据 = {
-    "情绪值": 7,
-    "智能强度": 7,
-    "外部压力": 外部压力
+// 参数结构
+const 外部因素 = {
+    "社会资源": 25,
+    "群体期待": 20,
+    "环境安全感": 15
 };
 
-// 私密参数，设计者专属
-const 私密控制 = {
-    "意志强度": 30,
-    "内在意图": 35
+const 内部因素 = {
+    "思维清晰度": 28,
+    "意志强度": 22,
+    "内在意图": 25
 };
 
-// 初始化页面
-function updateBasicInfo() {
-    document.getElementById("basicInfo").innerHTML = `
-        <h4>探测对象：${目标名称}</h4>
-        <p>情绪值：${基础数据["情绪值"]}</p>
-        <p>智能强度：${基础数据["智能强度"]}</p>
-        <p>外部压力：${基础数据["外部压力"]}</p>
+const 内因功能 = {
+    "Ti 逻辑判断": 60,
+    "Fi 价值系统": 40,
+    "Ni 预判能力": 55,
+    "Se 外部感知": 35
+};
+
+// 初始化
+渲染基础信息();
+计算动能();
+更新动能区();
+
+function 渲染基础信息() {
+    document.getElementById("基础信息区").innerHTML = `
+        <h4>对象：${目标名称}</h4>
         <p>综合评分：${综合评分}</p>
     `;
 }
 
-// 详细信息展开
-function showDetails() {
-    document.getElementById("detailInfo").style.display = "block";
-    document.getElementById("detailInfo").innerHTML = `
-        <h4>详细参数</h4>
-        <p>思维清晰度：${随机值()}</p>
-        <p>意志强度（部分公开）：${私密控制["意志强度"]}</p>
-        <p>环境波动不确定性：${随机值()}</p>
+function 计算动能() {
+    const 内因平均 = (内因功能["Ti 逻辑判断"] + 内因功能["Fi 价值系统"] + 内因功能["Ni 预判能力"] + 内因功能["Se 外部感知"]) / 4;
+    const 外部压制 = (50 - 外部因素["环境安全感"]) * 0.3; 
+    动能值 = Math.max(Math.round(内因平均 * 0.8 - 外部压制), 0);
+}
+
+function 更新动能区() {
+    document.getElementById("动能区").innerHTML = `
+        <h4>动能状态</h4>
+        <p>总体动能：${动能值}% <progress value="${动能值}" max="100"></progress></p>
     `;
+}
 
-    // 高权限私密区仅设计者可见
-    if (isDesigner()) {
-        document.getElementById("privateControl").style.display = "block";
-        document.getElementById("privateControl").innerHTML = `
-            <h4>设计者私密控制区</h4>
-            <button onclick="干预('意志强度', 50)">提升意志强度</button>
-            <button onclick="干预('内在意图', 50)">强化内在意图</button>
-        `;
+function 展示外部() {
+    const 区 = document.getElementById("外部区");
+    区.style.display = "block";
+    区.innerHTML = `<h4>外部因素</h4>`;
+    for (const key in 外部因素) {
+        区.innerHTML += `<p>${key}：${外部因素[key]} <progress value="${外部因素[key]}" max="50"></progress></p>`;
     }
 }
 
-// 设计者身份判断（示例为默认本人）
-function isDesigner() {
-    return true;
-}
-
-// 干预操作
-function 干预(key, value) {
-    if (私密控制.hasOwnProperty(key)) {
-        私密控制[key] = value;
-        alert(`已将【${key}】调整为 ${value}`);
-        showDetails();
+function 展示内部() {
+    const 区 = document.getElementById("内部区");
+    区.style.display = "block";
+    区.innerHTML = `<h4>内部因素</h4>`;
+    for (const key in 内部因素) {
+        区.innerHTML += `<p>${key}：${内部因素[key]} <progress value="${内部因素[key]}" max="50"></progress></p>`;
     }
 }
 
-// 自动预警，重要对象自动展开
-function 自动检查() {
-    if (综合评分 < 20 || 外部压力 > 40) {
-        showDetails();
+function 展示内因() {
+    const 区 = document.getElementById("内因区");
+    区.style.display = "block";
+    区.innerHTML = `<h4>内因功能区</h4>`;
+    for (const key in 内因功能) {
+        let 等级 = "低";
+        if (内因功能[key] >= 70) 等级 = "强";
+        else if (内因功能[key] >= 50) 等级 = "中";
+        区.innerHTML += `<p>${key}：${内因功能[key]}% （${等级}）</p>`;
     }
+    计算动能();
+    更新动能区();
 }
 
-// 生成随机0-50数值
-function 随机值() {
-    return Math.floor(Math.random() * 51);
+function 展示动能() {
+    document.getElementById("动能区").style.display = "block";
+    计算动能();
+    更新动能区();
 }
 
-// 初始渲染
-updateBasicInfo();
-自动检查();
+function 展示全部() {
+    展示外部();
+    展示内部();
+    展示内因();
+    展示动能();
+}
 
 </script>
 
