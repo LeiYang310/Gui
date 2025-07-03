@@ -3,12 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <title>外部条件模块 - 第二层</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding-top: 50px; }
+        input[type=range] { width: 200px; }
+    </style>
 </head>
 <body>
-<h2>外部条件模块 - 开发中</h2>
+
+<h2>外部条件模块 - 第二层</h2>
+
+<div>
+    社会压力： <span id="socialPressureVal">50</span>
+    <input type="range" id="socialPressureSlider" min="0" max="100" value="50">
+</div>
+<div>
+    群体期待： <span id="groupExpectationVal">50</span>
+    <input type="range" id="groupExpectationSlider" min="0" max="100" value="50">
+</div>
+<div>
+    物质环境影响： <span id="materialConditionVal">50</span>
+    <input type="range" id="materialConditionSlider" min="0" max="100" value="50">
+</div>
+
+<br>
 <button onclick="goToOverview()">返回总览</button>
 
 <script>
+    const socialSlider = document.getElementById("socialPressureSlider");
+    const socialVal = document.getElementById("socialPressureVal");
+    socialSlider.oninput = () => {
+        socialVal.innerText = socialSlider.value;
+    };
+
+    const groupSlider = document.getElementById("groupExpectationSlider");
+    const groupVal = document.getElementById("groupExpectationVal");
+    groupSlider.oninput = () => {
+        groupVal.innerText = groupSlider.value;
+    };
+
+    const materialSlider = document.getElementById("materialConditionSlider");
+    const materialVal = document.getElementById("materialConditionVal");
+    materialSlider.oninput = () => {
+        materialVal.innerText = materialSlider.value;
+    };
+
     function goToOverview() {
         window.location.href = "system_overview.html";
     }
