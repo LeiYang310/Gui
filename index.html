@@ -10,9 +10,9 @@ body { font-family: Arial, sans-serif; text-align: center; margin-top: 30px; bac
 .circle-button { width: 130px; height: 130px; border-radius: 50%; background: linear-gradient(45deg, #ff7f50, #ff6347); color: white; display: flex; justify-content: center; align-items: center; font-size: 14px; cursor: pointer; box-shadow: 0 0 15px rgba(0,0,0,0.3); }
 .circle-button:nth-child(2) { background: linear-gradient(45deg, #1e90ff, #00bfff); }
 .circle-button:nth-child(3) { background: linear-gradient(45deg, #32cd32, #3cb371); }
-.button { margin-top: 20px; padding: 10px 20px; background-color: #1e90ff; color: white; border: none; border-radius: 5px; cursor: pointer; }
-input { margin: 5px; }
-h2 { margin-top: 30px; }
+.button { margin-top: 10px; padding: 8px 16px; background-color: #1e90ff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+input { margin: 5px; width: 60px; }
+h2 { margin-top: 20px; }
 </style>
 </head>
 <body>
@@ -33,6 +33,10 @@ h2 { margin-top: 30px; }
 基础稳定性：<input type="number" id="b_root" min="0" max="100" value="50"><br>
 能量储备：<input type="number" id="b_energy" min="0" max="100" value="50"><br>
 
+<h2>智能探测</h2>
+<input type="text" id="scanInput" placeholder="输入关键词，如 外貌好 经济差">
+<button class="button" onclick="simulateScan()">智能探测</button><br>
+
 <button class="button" onclick="createNewUser()">创建用户</button>
 
 <div class="button-container">
@@ -45,52 +49,5 @@ h2 { margin-top: 30px; }
 <button class="button" onclick="window.location.href='system_overview.html'">系统总控概览</button>
 
 <script src="app.js"></script>
-<script>
-window.userData = {};
-window.currentUser = '';
-
-function switchUser() {
-    const selector = document.getElementById('userSelector');
-    window.currentUser = selector.value;
-    alert('已切换至：' + window.currentUser);
-}
-
-function createNewUser() {
-    const newId = document.getElementById('newUserId').value.trim();
-    if (newId === '') { alert('名字不能为空'); return; }
-    if (window.userData.hasOwnProperty(newId)) { alert('该用户已存在'); return; }
-
-    const baseline = {
-        socialExpectations: Number(document.getElementById('b_socialExpectations').value),
-        groupPressure: Number(document.getElementById('b_groupPressure').value),
-        materialEnvironment: Number(document.getElementById('b_materialEnvironment').value),
-        ni: Number(document.getElementById('b_ni').value),
-        ti: Number(document.getElementById('b_ti').value),
-        te: Number(document.getElementById('b_te').value),
-        root: Number(document.getElementById('b_root').value),
-        energy: Number(document.getElementById('b_energy').value)
-    };
-
-    window.userData[newId] = {
-        baseline: baseline,
-        dynamic: { ...baseline }
-    };
-
-    const selector = document.getElementById('userSelector');
-    const option = document.createElement('option');
-    option.value = newId;
-    option.text = newId;
-    selector.appendChild(option);
-    selector.value = newId;
-    window.currentUser = newId;
-
-    alert('已创建并切换至：' + newId);
-}
-
-function goToExternal() { window.location.href = 'external_conditions.html'; }
-function goToInternal() { window.location.href = 'internal_functions.html'; }
-function goToRoot() { window.location.href = 'root_layer.html'; }
-</script>
-
 </body>
 </html>
