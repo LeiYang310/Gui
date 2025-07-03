@@ -5,53 +5,78 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>系统总控概览</title>
 <style>
-body { font-family: Arial, sans-serif; text-align: center; margin: 30px; background: linear-gradient(135deg, #fffaf0, #e0ffff); }
-h1 { color: #333; }
-.data-block { margin: 20px 0; padding: 15px; background-color: #f5f5f5; border-radius: 8px; display: inline-block; text-align: left; }
-.button { margin-top: 20px; padding: 10px 20px; background-color: #1e90ff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 30px;
+    background: linear-gradient(135deg, #f0f8ff, #ffe4e1);
+}
+.data-box {
+    background: #fff;
+    padding: 20px;
+    display: inline-block;
+    text-align: left;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-radius: 10px;
+}
+.button {
+    margin: 10px;
+    padding: 10px 20px;
+    background-color: #1e90ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
 </style>
 </head>
 <body>
 
 <h1>系统总控概览</h1>
 
-<div class="data-block" id="overview">
-<strong>外部条件：</strong><br>
-社会角色预期：<span id="socialExpectations">-</span><br>
-群体压力：<span id="groupPressure">-</span><br>
-物质条件：<span id="materialEnvironment">-</span><br><br>
-
-<strong>内部功能：</strong><br>
-内在意图（Ni）：<span id="ni">-</span><br>
-逻辑判断（Ti）：<span id="ti">-</span><br>
-外部逻辑执行（Te）：<span id="te">-</span><br><br>
-
-<strong>根层结构：</strong><br>
-基础稳定性：<span id="root">-</span><br>
-能量储备：<span id="energy">-</span><br>
+<div class="data-box" id="overview">
+加载中...
 </div>
 
-<button class="button" onclick="refreshOverview()">刷新数据</button>
-<button class="button" onclick="goBack()">返回首页</button>
+<div>
+    <button class="button" onclick="loadData()">刷新数据</button>
+    <button class="button" onclick="goBack()">返回首页</button>
+</div>
 
-<script src="app.js"></script>
 <script>
-function refreshOverview() {
-    const data = window.userData[window.currentUser];
-    document.getElementById('socialExpectations').innerText = data.externalConditions.socialExpectations;
-    document.getElementById('groupPressure').innerText = data.externalConditions.groupPressure;
-    document.getElementById('materialEnvironment').innerText = data.externalConditions.materialEnvironment;
+function loadData() {
+    const s = window.systemStructure;
+    document.getElementById('overview').innerHTML = `
+    <h3>外部条件：</h3>
+    外貌：${s.externalConditions.socialExpectations.appearance}<br>
+    社会口碑：${s.externalConditions.socialExpectations.reputation}<br>
+    地位象征：${s.externalConditions.socialExpectations.statusSymbol}<br>
+    害怕失去机会：${s.externalConditions.socialExpectations.fearOfLosingOpportunity}<br>
+    群体比较：${s.externalConditions.groupPressure.peerComparison}<br>
+    从众需求：${s.externalConditions.groupPressure.conformityNeed}<br>
+    害怕排斥：${s.externalConditions.groupPressure.rejectionFear}<br>
+    群体认同：${s.externalConditions.groupPressure.groupValidation}<br>
+    财富水平：${s.externalConditions.materialEnvironment.wealth}<br>
+    资源获取：${s.externalConditions.materialEnvironment.resourceAccess}<br>
+    居住环境：${s.externalConditions.materialEnvironment.livingConditions}<br>
+    财富自由：${s.externalConditions.materialEnvironment.financialFreedom}<br><br>
 
-    document.getElementById('ni').innerText = data.internalFunctions.ni;
-    document.getElementById('ti').innerText = data.internalFunctions.ti;
-    document.getElementById('te').innerText = data.internalFunctions.te;
+    <h3>内部功能：</h3>
+    内在意图 (Ni)：${s.internalFunctions.ni}<br>
+    逻辑判断 (Ti)：${s.internalFunctions.ti}<br>
+    外部逻辑执行 (Te)：${s.internalFunctions.te}<br><br>
 
-    document.getElementById('root').innerText = data.rootLayer.root;
-    document.getElementById('energy').innerText = data.rootLayer.energy;
+    <h3>根层结构：</h3>
+    基础稳定性：${s.rootLayer.root}<br>
+    能量储备：${s.rootLayer.energy}<br>
+    `;
 }
+
 function goBack() {
     window.location.href = 'index.html';
 }
+
+window.onload = loadData;
 </script>
 
 </body>
