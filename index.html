@@ -5,49 +5,84 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>外层控制系统 - 第一层</title>
 <style>
-body { font-family: Arial, sans-serif; text-align: center; margin-top: 30px; background: linear-gradient(135deg, #f0f8ff, #ffe4e1); }
-.button-container { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 40px; margin-top: 20px; }
-.circle-button { width: 130px; height: 130px; border-radius: 50%; background: linear-gradient(45deg, #ff7f50, #ff6347); color: white; display: flex; justify-content: center; align-items: center; font-size: 14px; cursor: pointer; box-shadow: 0 0 15px rgba(0,0,0,0.3); }
-.circle-button:nth-child(2) { background: linear-gradient(45deg, #1e90ff, #00bfff); }
-.circle-button:nth-child(3) { background: linear-gradient(45deg, #32cd32, #3cb371); }
-.button { margin-top: 10px; padding: 8px 16px; background-color: #1e90ff; color: white; border: none; border-radius: 5px; cursor: pointer; }
-input { margin: 5px; width: 60px; }
-h2 { margin-top: 20px; }
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 30px;
+    background: linear-gradient(135deg, #f0f8ff, #ffe4e1);
+}
+input {
+    margin: 5px;
+    padding: 5px;
+}
+button {
+    margin: 10px;
+    padding: 8px 15px;
+    background-color: #1e90ff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+#result {
+    margin-top: 20px;
+    padding: 15px;
+    background: #fff;
+    display: inline-block;
+    text-align: left;
+    box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    border-radius: 8px;
+}
 </style>
 </head>
 <body>
 
 <h1>外层控制系统 - 第一层</h1>
 
-<h2>选择用户身份</h2>
-<select id="userSelector" onchange="switchUser()"></select>
+<h3>新增用户</h3>
+<input type="text" id="username" placeholder="输入名字"><br>
 
-<h2>新增用户</h2>
-<input type="text" id="newUserId" placeholder="输入名字"><br>
-社会角色预期：<input type="number" id="b_socialExpectations" min="0" max="100" value="50"><br>
-群体压力：<input type="number" id="b_groupPressure" min="0" max="100" value="50"><br>
-物质条件：<input type="number" id="b_materialEnvironment" min="0" max="100" value="50"><br>
-内在意图（Ni）：<input type="number" id="b_ni" min="0" max="100" value="50"><br>
-逻辑判断（Ti）：<input type="number" id="b_ti" min="0" max="100" value="50"><br>
-外部逻辑执行（Te）：<input type="number" id="b_te" min="0" max="100" value="50"><br>
-基础稳定性：<input type="number" id="b_root" min="0" max="100" value="50"><br>
-能量储备：<input type="number" id="b_energy" min="0" max="100" value="50"><br>
+<label>社会角色预期：</label><input type="number" id="social" value="50"><br>
+<label>群体压力：</label><input type="number" id="group" value="50"><br>
+<label>物质条件：</label><input type="number" id="material" value="50"><br>
+<label>内在意图 (Ni)：</label><input type="number" id="ni" value="50"><br>
+<label>逻辑判断 (Ti)：</label><input type="number" id="ti" value="50"><br>
+<label>外部逻辑执行 (Te)：</label><input type="number" id="te" value="50"><br>
+<label>基础稳定性：</label><input type="number" id="root" value="50"><br>
+<label>能量储备：</label><input type="number" id="energy" value="50"><br>
 
-<h2>宇宙智能探测</h2>
-<input type="text" id="scanInput" placeholder="输入目标名称">
-<button class="button" onclick="simulateScan()">智能探测</button><br>
+<br>
+<button onclick="createUser()">创建用户</button>
 
-<button class="button" onclick="createNewUser()">创建用户</button>
+<div id="result">请创建用户后查看数据</div>
 
-<div class="button-container">
-    <div class="circle-button" onclick="goToExternal()">外部条件模块</div>
-    <div class="circle-button" onclick="goToInternal()">内部功能模块</div>
-    <div class="circle-button" onclick="goToRoot()">根层模块</div>
-</div>
+<script>
+function createUser() {
+    const name = document.getElementById('username').value || '未命名';
+    const social = document.getElementById('social').value;
+    const group = document.getElementById('group').value;
+    const material = document.getElementById('material').value;
+    const ni = document.getElementById('ni').value;
+    const ti = document.getElementById('ti').value;
+    const te = document.getElementById('te').value;
+    const root = document.getElementById('root').value;
+    const energy = document.getElementById('energy').value;
 
-<button class="button" onclick="controlNextNode()">总控启动</button>
-<button class="button" onclick="window.location.href='system_overview.html'">系统总控概览</button>
+    const output = `
+    <h3>用户数据 - ${name}</h3>
+    社会角色预期：${social}<br>
+    群体压力：${group}<br>
+    物质条件：${material}<br>
+    内在意图 (Ni)：${ni}<br>
+    逻辑判断 (Ti)：${ti}<br>
+    外部逻辑执行 (Te)：${te}<br>
+    基础稳定性：${root}<br>
+    能量储备：${energy}<br>
+    `;
 
-<script src="app.js"></script>
+    document.getElementById('result').innerHTML = output;
+}
+</script>
+
 </body>
 </html>
