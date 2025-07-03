@@ -1,21 +1,9 @@
-<!DOCTYPE html>
-<html lang="zh">
-<head>
-    <meta charset="UTF-8">
-    <title>宇宙智能探测</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding-top: 100px; }
-        input, button { padding: 8px 12px; margin: 5px; }
-        #result { margin-top: 20px; color: blue; font-weight: bold; }
-    </style>
-</head>
-<body>
-
 <h2>宇宙智能探测</h2>
 <input type="text" id="nameInput" placeholder="请输入名称">
 <button id="detectBtn">智能探测</button>
 
 <div id="result"></div>
+<div id="details" style="margin-top:20px;"></div>
 <br>
 <button onclick="goToOverview()">返回总览</button>
 
@@ -34,9 +22,48 @@
                 alert("请先激活探头");
                 return;
             }
-            this.probeData = `探测结果：发现【${name}】的宇宙智能反应`;
-            console.log(this.probeData);
-            document.getElementById("result").innerText = this.probeData;
+            this.probeData = {
+                "对象名称": name,
+                "情绪值": 50,
+                "智能强度": 70,
+                "外部压力": 30
+            };
+            console.log("探测数据：", this.probeData);
+            this.showResult();
+        },
+
+        showResult() {
+            const resDiv = document.getElementById("result");
+            const detDiv = document.getElementById("details");
+            resDiv.innerText = `探测结果：发现【${this.probeData["对象名称"]}】的宇宙智能反应`;
+
+            // 动态生成数值与滑动条
+            detDiv.innerHTML = `
+                情绪值：<span id="emotionVal">${this.probeData["情绪值"]}</span>
+                <input type="range" id="emotionSlider" min="0" max="100" value="${this.probeData["情绪值"]}"><br><br>
+                
+                智能强度：<span id="intelligenceVal">${this.probeData["智能强度"]}</span>
+                <input type="range" id="intelligenceSlider" min="0" max="100" value="${this.probeData["智能强度"]}"><br><br>
+                
+                外部压力：<span id="pressureVal">${this.probeData["外部压力"]}</span>
+                <input type="range" id="pressureSlider" min="0" max="100" value="${this.probeData["外部压力"]}">
+            `;
+
+            // 绑定滑动条逻辑
+            document.getElementById("emotionSlider").oninput = (e) => {
+                this.probeData["情绪值"] = e.target.value;
+                document.getElementById("emotionVal").innerText = e.target.value;
+            };
+
+            document.getElementById("intelligenceSlider").oninput = (e) => {
+                this.probeData["智能强度"] = e.target.value;
+                document.getElementById("intelligenceVal").innerText = e.target.value;
+            };
+
+            document.getElementById("pressureSlider").oninput = (e) => {
+                this.probeData["外部压力"] = e.target.value;
+                document.getElementById("pressureVal").innerText = e.target.value;
+            };
         }
     };
 
@@ -55,6 +82,3 @@
         window.location.href = "system_overview.html";
     }
 </script>
-
-</body>
-</html>
