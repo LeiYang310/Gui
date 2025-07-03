@@ -46,7 +46,7 @@
 
 <div class="container">
     <h2>龟壳智能探测 · 进阶模式</h2>
-
+    
     <div>
         <label>探测对象：</label>
         <input type="text" id="targetName" placeholder="请输入姓名">
@@ -57,12 +57,8 @@
 </div>
 
 <script>
-// 核心逻辑整合
-
-// 重要关系人名单，可自定义
 const importantList = ["我自己", "小孩", "配偶", "重要朋友"];
 
-// 初始化探测流程
 function initiateDetection() {
     const name = document.getElementById('targetName').value.trim();
     if (!name) {
@@ -78,7 +74,6 @@ function initiateDetection() {
     }
 }
 
-// 生成界面
 function generateMainContent() {
     const content = document.getElementById("mainContent");
     content.innerHTML = `
@@ -113,7 +108,6 @@ function generateSlider(label, id) {
     `;
 }
 
-// 更新并存储重要对象数据
 function updateTotalsAndStore() {
     updateTotals();
     const name = document.getElementById('targetName').value.trim();
@@ -140,17 +134,14 @@ function updateTotals() {
     const outer = avg(["social","pressure","expectation","material","appearance"]);
     const inner = avg(["ti","fi","ni","se"]);
     const dynamics = Math.round((outer + inner) / 2);
-
     document.getElementById("outerTotal").innerText = outer;
     document.getElementById("innerTotal").innerText = inner;
     document.getElementById("dynamics").innerText = dynamics;
-
     ["social","pressure","expectation","material","appearance","ti","fi","ni","se"].forEach(id => {
         document.getElementById(id + "Val").innerText = document.getElementById(id).value;
     });
 }
 
-// 重要对象：读取历史数据
 function loadStoredData(name) {
     const key = "龟壳_" + name;
     if (localStorage.getItem(key)) {
@@ -159,17 +150,14 @@ function loadStoredData(name) {
             document.getElementById(id).value = data[id];
         }
     } else {
-        ["social","pressure","expectation","material","appearance","ti","fi","ni","se"].forEach(id => {
-            document.getElementById(id).value = random(50);
-        });
+        randomDisplay();
     }
     updateTotals();
 }
 
-// 普通对象：仅随机展示
 function randomDisplay() {
     ["social","pressure","expectation","material","appearance","ti","fi","ni","se"].forEach(id => {
-        document.getElementById(id).value = random(50);
+        document.getElementById(id).value = random(100);
     });
     updateTotals();
 }
