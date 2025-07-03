@@ -1,174 +1,177 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <title>龟壳智能探测</title>
-    <style>
-        body {
-            background-image: url('white flower.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            font-family: Arial, sans-serif;
-            color: #333;
-            text-align: center;
-            padding: 20px;
-        }
-        .container {
-            background: rgba(255, 255, 255, 0.85);
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 20px;
-            border-radius: 10px;
-        }
-        .section {
-            margin: 20px 0;
-            text-align: left;
-        }
-        label {
-            display: inline-block;
-            width: 140px;
-        }
-        input[type="range"] {
-            width: 200px;
-        }
-        #result {
-            margin-top: 15px;
-            font-weight: bold;
-        }
-        button {
-            padding: 8px 15px;
-            margin-top: 10px;
-        }
-    </style>
+<meta charset="UTF-8">
+<title>龟壳智能探测 - 进阶模式</title>
+<style>
+    body {
+        background-color: #e8f5e9; /* 淡绿色背景 */
+        font-family: Arial, sans-serif;
+        color: #333;
+        text-align: center;
+        padding: 20px;
+    }
+    .container {
+        background: rgba(255, 255, 255, 0.9);
+        max-width: 700px;
+        margin: 40px auto;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    .section {
+        margin: 20px 0;
+        text-align: left;
+    }
+    label {
+        display: inline-block;
+        width: 140px;
+        font-weight: bold;
+    }
+    input[type="range"] {
+        width: 200px;
+    }
+    .totals {
+        margin-top: 20px;
+        font-weight: bold;
+        font-size: 16px;
+    }
+    button {
+        padding: 8px 16px;
+        margin-top: 15px;
+        background-color: #4caf50;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #45a049;
+    }
+</style>
 </head>
 <body>
 
 <div class="container">
-    <h2>龟壳智能探测 · 进阶模式</h2>
+    <h2>龟壳智能探测 - 进阶模式</h2>
     
     <div>
         <label>探测对象：</label>
         <input type="text" id="targetName" placeholder="请输入姓名">
-        <button onclick="initiateDetection()">智能探测</button>
+        <button onclick="startDetection()">智能探测</button>
     </div>
 
-    <div id="mainContent" style="display:none;"></div>
+    <div id="mainContent" style="display:none;">
+        <h3>外因功能区</h3>
+        <div class="section" id="outerSection"></div>
+
+        <h3>内因功能区</h3>
+        <div class="section" id="innerSection"></div>
+
+        <div class="totals">
+            外因总分：<span id="outerTotal">0</span> |
+            内因总分：<span id="innerTotal">0</span> |
+            动能状态：<span id="dynamics">0</span>
+        </div>
+    </div>
 </div>
 
 <script>
+// 重要名单，绑定数据
 const importantList = ["我自己", "小孩", "配偶", "重要朋友"];
 
-function initiateDetection() {
+// 外因、内因参数
+const outerFactors = [
+    { label: "社交资源", id: "social" },
+    { label: "社会认知压力", id: "pressure" },
+    { label: "社会期待值", id: "expectation" },
+    { label: "物质基础", id: "material" },
+    { label: "外貌形象", id: "appearance" }
+];
+
+const innerFactors = [
+    { label: "Ti逻辑判断", id: "ti" },
+    { label: "Fi价值系统", id: "fi" },
+    { label: "Ni预测能力", id: "ni" },
+    { label: "Se外部感知", id: "se" }
+];
+
+// 初始化
+function startDetection() {
     const name = document.getElementById('targetName').value.trim();
-    if (!name) {
-        alert("请输入探测对象姓名");
-        return;
-    }
-    generateMainContent();
+    if (!name) return alert("请输入探测对象姓名");
+
+    generateSliders();
     document.getElementById("mainContent").style.display = "block";
-    if (importantList.includes(name)) {
-        loadStoredData(name);
-    } else {
-        randomDisplay();
-    }
-}
 
-function generateMainContent() {
-    const content = document.getElementById("mainContent");
-    content.innerHTML = `
-        <h3>外因功能区</h3>
-        ${generateSlider("社交资源", "social")}
-        ${generateSlider("社会认知压力", "pressure")}
-        ${generateSlider("社会期待值", "expectation")}
-        ${generateSlider("物质基础", "material")}
-        ${generateSlider("外貌形象", "appearance")}
-
-        <h3>内因功能区</h3>
-        ${generateSlider("Ti逻辑判断", "ti")}
-        ${generateSlider("Fi价值系统", "fi")}
-        ${generateSlider("Ni预测能力", "ni")}
-        ${generateSlider("Se外部感知", "se")}
-
-        <div class="section">
-            <strong>外因总分：</strong><span id="outerTotal">0</span> |
-            <strong>内因总分：</strong><span id="innerTotal">0</span> |
-            <strong>动能状态：</strong><span id="dynamics">0</span>
-        </div>
-    `;
-}
-
-function generateSlider(label, id) {
-    return `
-        <div>
-            <label>${label}：</label>
-            <input type="range" id="${id}" min="0" max="100" oninput="updateTotalsAndStore()">
-            <span id="${id}Val">0</span>
-        </div>
-    `;
-}
-
-function updateTotalsAndStore() {
+    if (importantList.includes(name)) loadData(name);
+    else randomInit();
     updateTotals();
-    const name = document.getElementById('targetName').value.trim();
-    if (!name || !importantList.includes(name)) return;
-    const data = {
-        social: getVal('social'),
-        pressure: getVal('pressure'),
-        expectation: getVal('expectation'),
-        material: getVal('material'),
-        appearance: getVal('appearance'),
-        ti: getVal('ti'),
-        fi: getVal('fi'),
-        ni: getVal('ni'),
-        se: getVal('se')
-    };
-    localStorage.setItem("龟壳_" + name, JSON.stringify(data));
 }
 
+// 生成滑动条
+function generateSliders() {
+    document.getElementById("outerSection").innerHTML = outerFactors.map(f =>
+        `<label>${f.label}：</label><input type="range" id="${f.id}" min="0" max="50" value="0" oninput="updateTotals()"><span id="${f.id}Val">0</span><br>`
+    ).join("");
+
+    document.getElementById("innerSection").innerHTML = innerFactors.map(f =>
+        `<label>${f.label}：</label><input type="range" id="${f.id}" min="0" max="50" value="0" oninput="updateTotals()"><span id="${f.id}Val">0</span><br>`
+    ).join("");
+}
+
+// 更新总分+存储
+function updateTotals() {
+    const outer = avg(outerFactors.map(f => f.id));
+    const inner = avg(innerFactors.map(f => f.id));
+    const dynamics = Math.round((outer + inner) / 2);
+
+    document.getElementById("outerTotal").innerText = outer;
+    document.getElementById("innerTotal").innerText = inner;
+    document.getElementById("dynamics").innerText = dynamics;
+
+    const name = document.getElementById('targetName').value.trim();
+    if (importantList.includes(name)) {
+        const data = {};
+        [...outerFactors, ...innerFactors].forEach(f => {
+            data[f.id] = getVal(f.id);
+        });
+        localStorage.setItem("绑定_" + name, JSON.stringify(data));
+    }
+
+    // 同步显示滑动值
+    [...outerFactors, ...innerFactors].forEach(f => {
+        document.getElementById(f.id + "Val").innerText = getVal(f.id);
+    });
+}
+
+// 获取单值
 function getVal(id) {
     return parseInt(document.getElementById(id).value);
 }
 
-function updateTotals() {
-    const outer = avg(["social","pressure","expectation","material","appearance"]);
-    const inner = avg(["ti","fi","ni","se"]);
-    const dynamics = Math.round((outer + inner) / 2);
-    document.getElementById("outerTotal").innerText = outer;
-    document.getElementById("innerTotal").innerText = inner;
-    document.getElementById("dynamics").innerText = dynamics;
-    ["social","pressure","expectation","material","appearance","ti","fi","ni","se"].forEach(id => {
-        document.getElementById(id + "Val").innerText = document.getElementById(id).value;
-    });
-}
-
-function loadStoredData(name) {
-    const key = "龟壳_" + name;
-    if (localStorage.getItem(key)) {
-        const data = JSON.parse(localStorage.getItem(key));
-        for (let id in data) {
-            document.getElementById(id).value = data[id];
-        }
-    } else {
-        randomDisplay();
-    }
-    updateTotals();
-}
-
-function randomDisplay() {
-    ["social","pressure","expectation","material","appearance","ti","fi","ni","se"].forEach(id => {
-        document.getElementById(id).value = random(100);
-    });
-    updateTotals();
-}
-
+// 平均值
 function avg(ids) {
     const sum = ids.reduce((total, id) => total + getVal(id), 0);
     return Math.round(sum / ids.length);
 }
 
-function random(max) {
-    return Math.floor(Math.random() * (max + 1));
+// 随机初始化
+function randomInit() {
+    [...outerFactors, ...innerFactors].forEach(f => {
+        document.getElementById(f.id).value = Math.floor(Math.random() * 51);
+    });
+}
+
+// 读取绑定数据
+function loadData(name) {
+    const raw = localStorage.getItem("绑定_" + name);
+    if (!raw) return randomInit();
+
+    const data = JSON.parse(raw);
+    [...outerFactors, ...innerFactors].forEach(f => {
+        document.getElementById(f.id).value = data[f.id] || 0;
+    });
 }
 </script>
 
