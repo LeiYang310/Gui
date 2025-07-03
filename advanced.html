@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>进阶模式 · 龟壳智能探测</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <h1>进阶模式 · 龟壳智能探测</h1>
+    <p>探测对象：<span id="targetName"></span></p>
+
+    <div id="detectArea">
+        <h2>外因功能区</h2>
+        <div class="param">社交资源：<input type="range" id="social" min="0" max="100" oninput="updateTotal()"><span id="socialVal"></span></div>
+        <div class="param">社会认知压力：<input type="range" id="pressure" min="0" max="100" oninput="updateTotal()"><span id="pressureVal"></span></div>
+        <div class="param">社会期待值：<input type="range" id="expectation" min="0" max="100" oninput="updateTotal()"><span id="expectationVal"></span></div>
+        <div class="param">物质基础：<input type="range" id="material" min="0" max="100" oninput="updateTotal()"><span id="materialVal"></span></div>
+        <div class="param">外貌形象：<input type="range" id="appearance" min="0" max="100" oninput="updateTotal()"><span id="appearanceVal"></span></div>
+
+        <h2>内因功能区</h2>
+        <div class="param">Ti逻辑判断：<input type="range" id="ti" min="0" max="100" oninput="updateTotal()"><span id="tiVal"></span></div>
+        <div class="param">Fi价值系统：<input type="range" id="fi" min="0" max="100" oninput="updateTotal()"><span id="fiVal"></span></div>
+        <div class="param">Ni预测能力：<input type="range" id="ni" min="0" max="100" oninput="updateTotal()"><span id="niVal"></span></div>
+        <div class="param">Se外部感知：<input type="range" id="se" min="0" max="100" oninput="updateTotal()"><span id="seVal"></span></div>
+
+        <h2>总分统计</h2>
+        外因总分：<span id="outerTotal">0</span> |
+        内因总分：<span id="innerTotal">0</span> |
+        动能状态：<span id="dynamics">0</span>
+
+        <div class="section">
+            <h3>设定递进目标</h3>
+            目标动能值：<input type="number" id="targetValue" min="0" max="100">
+            周期：
+            <select id="timeSelect">
+                <option value="30">1个月</option>
+                <option value="90">3个月</option>
+                <option value="180">半年</option>
+                <option value="365">1年</option>
+            </select>
+            <button onclick="setGoal()">确认目标</button>
+        </div>
+
+        <div class="section">
+            <h3>历史记录</h3>
+            <ul id="historyList"></ul>
+        </div>
+    </div>
+
+    <button onclick="goHome()">回到主页</button>
+</div>
+
+<script>
+const params = new URLSearchParams(location.search);
+const name = params.get("name") || "未知对象";
+document.getElementById("targetName").innerText = name;
+
+function random(max=50) { return Math.floor(Math.random() * (max+1)); }
+
+function startDetection() {
+    ["social","pressure","expectation","material","appearance","ti","fi","ni","se"].forEach(id => {
+        const value = random(50);
+        document.getElementById(id).value = value;
+        document.getElementById(id + "Val").innerText = value;
+    });
+    updateTotal();
+}
+
+function updateTotal() {
+    const outerVals = ["social","pressure","expectation","material","appearance"].map(id => parseInt(document.getElementById(id).value));
+    const innerVals = ["ti","fi","ni","se"].map(id => parseInt(document.getElementById(id).value));
+
+    const outerTotal = Math.round(outerVals.reduce((a,b) => a+b) / outerVals.length);
+    const innerTotal = Math.round(innerVals.reduce((a,b) => a+b) / innerVals.length);
+    const dynamics = Math.round((outerTotal + innerTotal) / 2);
+
+    document.getElementById("outerTotal").innerText = outerTotal;
+    document.getElementById("innerTotal").innerText = innerTotal;
+    document.getElementById("dynamics").innerText = dynamics;
+
+    [...outerVals, ...innerVals].forEach((val, idx) => {
+        const ids = ["social","pressure","expectation","material","appearance","ti","fi","ni","se"];
+        document.getElementById(ids[idx] + "Val").innerText = document.getElementById(ids[idx]).value;
+    });
+}
+
+function setGoal() {
+    const target = document.getElementById("targetValue").value;
+    const time = document.getElementById("timeSelect").value;
+    const date = new Date().toLocaleDateString();
+    const msg = `${date} 目标设定：动能提升至 ${target}，周期：${time}天`;
+    const li = document.createElement("li");
+    li.innerText = msg;
+    document.getElementById("historyList").appendChild(li);
+}
+
+function goHome() {
+    location.href = "index.html";
+}
+
+startDetection();
+</script>
+</body>
+</html>
