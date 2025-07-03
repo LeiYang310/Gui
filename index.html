@@ -2,10 +2,10 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<title>龟壳智能探测 - 进阶模式</title>
+<title>龟壳智能探测 - 按钮确认版</title>
 <style>
     body {
-        background-color: #e8f5e9; 
+        background-color: #e8f5e9;
         font-family: Arial, sans-serif;
         color: #333;
         text-align: center;
@@ -38,7 +38,7 @@
     }
     button {
         padding: 8px 16px;
-        margin-top: 15px;
+        margin: 10px 5px;
         background-color: #4caf50;
         color: #fff;
         border: none;
@@ -53,7 +53,7 @@
 <body>
 
 <div class="container">
-    <h2>龟壳智能探测 - 进阶模式</h2>
+    <h2>龟壳智能探测 - 确认按钮版</h2>
     
     <div>
         <label>探测对象：</label>
@@ -73,13 +73,13 @@
             内因总分：<span id="innerTotal">0</span> |
             动能状态：<span id="dynamics">0</span>
         </div>
+
+        <button onclick="confirmAll()">确认调整</button>
     </div>
 </div>
-<script>
-// 重要名单，绑定数据
+    <script>
 const importantList = ["我自己", "小孩", "配偶", "重要朋友"];
 
-// 外因、内因参数
 const outerFactors = [
     { label: "社交资源", id: "social" },
     { label: "社会认知压力", id: "pressure" },
@@ -95,7 +95,6 @@ const innerFactors = [
     { label: "Se外部感知", id: "se" }
 ];
 
-// 初始化
 function startDetection() {
     const name = document.getElementById('targetName').value.trim();
     if (!name) return alert("请输入探测对象姓名");
@@ -105,21 +104,28 @@ function startDetection() {
 
     if (importantList.includes(name)) loadData(name);
     else randomInit();
-    updateTotals();
+    updateDisplay();
 }
 
 // 生成滑动条
 function generateSliders() {
     document.getElementById("outerSection").innerHTML = outerFactors.map(f =>
-        `<label>${f.label}：</label><input type="range" id="${f.id}" min="0" max="100" oninput="updateTotals()"><span id="${f.id}Val">0</span><br>`
+        `<label>${f.label}：</label><input type="range" id="${f.id}" min="0" max="50" oninput="updateDisplay()"><span id="${f.id}Val">0</span><br>`
     ).join("");
 
     document.getElementById("innerSection").innerHTML = innerFactors.map(f =>
-        `<label>${f.label}：</label><input type="range" id="${f.id}" min="0" max="100" oninput="updateTotals()"><span id="${f.id}Val">0</span><br>`
+        `<label>${f.label}：</label><input type="range" id="${f.id}" min="0" max="50" oninput="updateDisplay()"><span id="${f.id}Val">0</span><br>`
     ).join("");
 }
-    // 更新总分+存储
-function updateTotals() {
+        // 临时更新显示，滑动条变化仅反映数值，不保存
+function updateDisplay() {
+    [...outerFactors, ...innerFactors].forEach(f => {
+        document.getElementById(f.id + "Val").innerText = document.getElementById(f.id).value;
+    });
+}
+
+// 确认按钮逻辑：正式计算总分+存储
+function confirmAll() {
     const outer = avg(outerFactors.map(f => f.id));
     const inner = avg(innerFactors.map(f => f.id));
     const dynamics = Math.round((outer + inner) / 2);
@@ -137,29 +143,28 @@ function updateTotals() {
         localStorage.setItem("绑定_" + name, JSON.stringify(data));
     }
 
-    [...outerFactors, ...innerFactors].forEach(f => {
-        document.getElementById(f.id + "Val").innerText = getVal(f.id);
-    });
+    alert("当前数值已确认，系统已保存。");
 }
 
-// 获取单个滑动条值
+// 获取单值
 function getVal(id) {
     return parseInt(document.getElementById(id).value);
 }
 
-// 平均值计算
+// 计算平均值
 function avg(ids) {
     const sum = ids.reduce((total, id) => total + getVal(id), 0);
     return Math.round(sum / ids.length);
 }
 
-// 随机初始化 (0~100)
+// 随机初始化
 function randomInit() {
     [...outerFactors, ...innerFactors].forEach(f => {
-        document.getElementById(f.id).value = Math.floor(Math.random() * 101);
+        document.getElementById(f.id).value = Math.floor(Math.random() * 51);
     });
+    updateDisplay();
 }
-    // 读取绑定数据
+        // 加载绑定对象数据
 function loadData(name) {
     const raw = localStorage.getItem("绑定_" + name);
     if (!raw) return randomInit();
@@ -168,9 +173,9 @@ function loadData(name) {
     [...outerFactors, ...innerFactors].forEach(f => {
         document.getElementById(f.id).value = data[f.id] || 0;
     });
+    updateDisplay();
 }
 </script>
 
 </body>
 </html>
-    
