@@ -3,39 +3,65 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>根层模块 - 第二层</title>
+<title>根层结构模块</title>
 <style>
-body { font-family: Arial, sans-serif; text-align: center; margin: 30px; background: linear-gradient(135deg, #fff0f5, #f0ffff); }
-.slider-container { margin: 20px 0; }
-input[type=range] { width: 250px; }
-.value-display { font-weight: bold; margin-left: 10px; }
-.button { margin-top: 30px; padding: 10px 20px; background-color: #1e90ff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 30px;
+    background: linear-gradient(135deg, #f0f8ff, #ffe4e1);
+}
+h1 {
+    color: #333;
+}
+.slider-container {
+    margin: 20px 0;
+}
+input[type=range] {
+    width: 250px;
+}
+.value-display {
+    font-weight: bold;
+    margin-left: 10px;
+}
+.button {
+    margin-top: 30px;
+    padding: 10px 20px;
+    background-color: #1e90ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+.button:hover {
+    background-color: #187bcd;
+}
 </style>
 </head>
 <body>
 
-<h1>根层模块 - 第二层</h1>
+<h1>根层结构 - 第三层</h1>
 
 <div class="slider-container">
-<label>基础稳定性：
-<input type="range" id="root" min="0" max="100" value="50" oninput="updateRootLayer('root', this.value)">
-<span class="value-display" id="rootValue">50</span>
-</label>
+    <label>基础稳定性：
+        <input type="range" id="root" min="0" max="100" value="50" oninput="updateValue('root', this.value)">
+        <span class="value-display" id="rootValue">50</span>
+    </label>
 </div>
 
 <div class="slider-container">
-<label>能量储备：
-<input type="range" id="energy" min="0" max="100" value="50" oninput="updateRootLayer('energy', this.value)">
-<span class="value-display" id="energyValue">50</span>
-</label>
+    <label>能量储备：
+        <input type="range" id="energy" min="0" max="100" value="50" oninput="updateValue('energy', this.value)">
+        <span class="value-display" id="energyValue">50</span>
+    </label>
 </div>
 
 <button class="button" onclick="goBack()">返回首页</button>
 
-<script src="app.js"></script>
 <script>
-function updateRootLayer(key, value) {
-    window.userData[window.currentUser].rootLayer[key] = Number(value);
+function updateValue(key, value) {
+    window.systemStructure.rootLayer[key] = Number(value);
     document.getElementById(key + 'Value').innerText = value;
 }
 function goBack() {
