@@ -68,6 +68,116 @@
 
 <script>
 // 下一步输出JS逻辑部分
+    // 初始化探测流程
+function initiateDetection() {
+    const name = document.getElementById('targetName').value.trim();
+    if (!name) {
+        alert("请输入探测对象姓名");
+        return;
+    }
+    generateMainContent();
+    document.getElementById("mainContent").style.display = "block";
+}
+
+// 生成动态界面
+function generateMainContent() {
+    const content = document.getElementById("mainContent");
+    content.innerHTML = `
+        <h3>外因功能区</h3>
+        ${generateSlider("社交资源", "social")}
+        ${generateSlider("社会认知压力", "pressure")}
+        ${generateSlider("社会期待值", "expectation")}
+        ${generateSlider("物质基础", "material")}
+        ${generateSlider("外貌形象", "appearance")}
+
+        <h3>内因功能区</h3>
+        ${generateSlider("Ti逻辑判断", "ti")}
+        ${generateSlider("Fi价值系统", "fi")}
+        ${generateSlider("Ni预测能力", "ni")}
+        ${generateSlider("Se外部感知", "se")}
+
+        <div class="section">
+            <strong>外因总分：</strong><span id="outerTotal">0</span> |
+            <strong>内因总分：</strong><span id="innerTotal">0</span> |
+            <strong>动能状态：</strong><span id="dynamics">0</span>
+        </div>
+
+        <div class="section">
+            <h4>递进目标设定</h4>
+            目标动能值：<input type="number" id="targetValue" min="0" max="100" placeholder="0-100">
+            周期：
+            <select id="timeSelect">
+                <option value="30">1个月</option>
+                <option value="90">3个月</option>
+                <option value="180">半年</option>
+                <option value="365">1年</option>
+            </select>
+            <button onclick="recordGoal()">确认目标</button>
+        </div>
+
+        <div class="section history">
+            <h4>历史记录</h4>
+            <ul id="historyList"></ul>
+        </div>
+    `;
+
+    // 初始化默认值
+    ["social","pressure","expectation","material","appearance","ti","fi","ni","se"].forEach(id => {
+        document.getElementById(id).value = random(50);
+        document.getElementById(id + "Val").innerText = document.getElementById(id).value;
+    });
+
+    updateTotals();
+}
+
+// 生成滑动条HTML
+function generateSlider(label, id) {
+    return `
+        <div>
+            <label>${label}：</label>
+            <input type="range" id="${id}" min="0" max="100" oninput="updateTotals()">
+            <span id="${id}Val">0</span>
+        </div>
+    `;
+}
+
+// 计算总分与动能
+function updateTotals() {
+    const outer = avg(["social","pressure","expectation","material","appearance"]);
+    const inner = avg(["ti","fi","ni","se"]);
+    const dynamics = Math.round((outer + inner) / 2);
+
+    document.getElementById("outerTotal").innerText = outer;
+    document.getElementById("innerTotal").innerText = inner;
+    document.getElementById("dynamics").innerText = dynamics;
+
+    ["social","pressure","expectation","material","appearance","ti","fi","ni","se"].forEach(id => {
+        document.getElementById(id + "Val").innerText = document.getElementById(id).value;
+    });
+}
+
+// 目标设定与历史记录
+function recordGoal() {
+    const value = document.getElementById("targetValue").value;
+    const time = document.getElementById("timeSelect").value;
+    if (!value) {
+        alert("请填写目标动能值");
+        return;
+    }
+    const msg = `${new Date().toLocaleDateString()} 目标设定：动能达到${value}，周期：${time}天`;
+    const li = document.createElement("li");
+    li.innerText = msg;
+    document.getElementById("historyList").appendChild(li);
+}
+
+// 工具函数
+function random(max) {
+    return Math.floor(Math.random() * (max + 1));
+}
+function avg(ids) {
+    const sum = ids.reduce((total, id) => total + parseInt(document.getElementById(id).value), 0);
+    return Math.round(sum / ids.length);
+}
 </script>
 
 </body>
