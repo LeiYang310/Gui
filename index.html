@@ -36,7 +36,16 @@
         <input type="range" id="intentionSlider" min="0" max="100"><br><br>
 
         判断倾向： <span id="judgementVal">55</span>
-        <input type="range" id="judgementSlider" min="0" max="100">
+        <input type="range" id="judgementSlider" min="0" max="100"><br><br>
+
+        思维清晰度： <span id="clarityVal">50</span>
+        <input type="range" id="claritySlider" min="0" max="100"><br><br>
+
+        情绪稳定性： <span id="stabilityVal">50</span>
+        <input type="range" id="stabilitySlider" min="0" max="100"><br><br>
+
+        意志强度： <span id="willpowerVal">50</span>
+        <input type="range" id="willpowerSlider" min="0" max="100">
     </div>
 
     <div class="section">
@@ -54,7 +63,16 @@
         <input type="range" id="economicSlider" min="0" max="100"><br><br>
 
         环境安全感： <span id="safetyVal">65</span>
-        <input type="range" id="safetySlider" min="0" max="100">
+        <input type="range" id="safetySlider" min="0" max="100"><br><br>
+
+        社交资源： <span id="socialSupportVal">50</span>
+        <input type="range" id="socialSupportSlider" min="0" max="100"><br><br>
+
+        社会舆论压力： <span id="publicPressureVal">50</span>
+        <input type="range" id="publicPressureSlider" min="0" max="100"><br><br>
+
+        环境变动不确定性： <span id="uncertaintyVal">50</span>
+        <input type="range" id="uncertaintySlider" min="0" max="100">
     </div>
 </div>
 
@@ -81,16 +99,22 @@
 
             this.probeData = {
                 "对象名称": name,
-                "情绪值": random(30, 70),
-                "智能强度": random(40, 90),
-                "外部压力": random(10, 60),
-                "内在意图": random(40, 80),
-                "判断倾向": random(30, 70),
-                "社会压力": random(20, 80),
-                "群体期待": random(10, 90),
-                "物质环境影响": random(15, 85),
-                "经济资源": random(20, 90),
-                "环境安全感": random(25, 85)
+                "情绪值": random(0, 50),
+                "智能强度": random(0, 50),
+                "外部压力": random(0, 50),
+                "内在意图": random(0, 50),
+                "判断倾向": random(0, 50),
+                "思维清晰度": random(0, 50),
+                "情绪稳定性": random(0, 50),
+                "意志强度": random(0, 50),
+                "社会压力": random(0, 50),
+                "群体期待": random(0, 50),
+                "物质环境影响": random(0, 50),
+                "经济资源": random(0, 50),
+                "环境安全感": random(0, 50),
+                "社交资源": random(0, 50),
+                "社会舆论压力": random(0, 50),
+                "环境变动不确定性": random(0, 50)
             };
 
             this.showResult();
@@ -114,11 +138,17 @@
             setVal("pressure", "外部压力");
             setVal("intention", "内在意图");
             setVal("judgement", "判断倾向");
+            setVal("clarity", "思维清晰度");
+            setVal("stability", "情绪稳定性");
+            setVal("willpower", "意志强度");
             setVal("socialPressure", "社会压力");
             setVal("groupExpectation", "群体期待");
             setVal("materialCondition", "物质环境影响");
             setVal("economic", "经济资源");
             setVal("safety", "环境安全感");
+            setVal("socialSupport", "社交资源");
+            setVal("publicPressure", "社会舆论压力");
+            setVal("uncertainty", "环境变动不确定性");
         }
     };
 
