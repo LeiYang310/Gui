@@ -6,13 +6,21 @@
     <style>
         body { font-family: Arial, sans-serif; text-align: center; margin-top: 30px; }
         .模块区 { width: 360px; margin: 20px auto; padding: 15px; border: 1px solid #ccc; }
-        button { padding: 8px 15px; margin: 10px; }
+        button { padding: 8px 15px; margin: 5px; }
         progress { width: 200px; }
+        input { padding: 5px; width: 180px; }
     </style>
 </head>
 <body>
 
 <h2>宇宙智能探测 - 内外因分层整理清晰版</h2>
+
+<!-- 输入区域 -->
+<div style="margin-bottom: 20px;">
+    <label>请输入对象名称：</label>
+    <input type="text" id="目标输入" placeholder="如 张三、李四">
+    <button onclick="确认对象()">确认探测</button>
+</div>
 
 <!-- 基础信息 -->
 <div class="模块区" id="基础信息区"></div>
@@ -32,12 +40,11 @@
 
 <script>
 
-// 核心参数区
-let 目标名称 = "测试对象";
+// 核心数据
+let 目标名称 = "未指定";
 let 综合评分 = 35;
 let 动能值 = 0;
 
-// 参数结构
 const 外部因素 = {
     "社会资源": 25,
     "群体期待": 20,
@@ -57,10 +64,16 @@ const 内因功能 = {
     "Se 外部感知": 35
 };
 
-// 初始化
-渲染基础信息();
-计算动能();
-更新动能区();
+function 确认对象() {
+    const 输入值 = document.getElementById("目标输入").value.trim();
+    if (输入值) {
+        目标名称 = 输入值;
+        渲染基础信息();
+        alert(`已切换对象：${目标名称}`);
+    } else {
+        alert("请输入对象名称");
+    }
+}
 
 function 渲染基础信息() {
     document.getElementById("基础信息区").innerHTML = `
@@ -126,6 +139,11 @@ function 展示全部() {
     展示内因();
     展示动能();
 }
+
+// 页面初始化
+渲染基础信息();
+计算动能();
+更新动能区();
 
 </script>
 
